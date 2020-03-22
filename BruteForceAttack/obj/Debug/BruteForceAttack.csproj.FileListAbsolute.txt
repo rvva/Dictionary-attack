@@ -1,0 +1,9 @@
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\bin\Debug\BruteForceAttack.exe.config
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\bin\Debug\BruteForceAttack.exe
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\bin\Debug\BruteForceAttack.pdb
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.csprojAssemblyReference.cache
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.Form1.resources
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.Properties.Resources.resources
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.csproj.GenerateResource.cache
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.exe
+C:\Users\qqs\source\repos\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.pdb
