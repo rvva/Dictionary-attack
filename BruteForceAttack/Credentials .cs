@@ -10,7 +10,7 @@ namespace BruteForceAttack
 {
     class Credentials
     {
-        private LinkedList<Credential> listOfCredentials = new LinkedList<Credential>();
+        private LinkedList<Credential> listOfCredentials;
 
         internal LinkedList<Credential> ListOfCredentials { get => listOfCredentials; set => listOfCredentials = value; }
 
@@ -18,6 +18,7 @@ namespace BruteForceAttack
         public void loadCredentialsFormFile(string path)
         {
             StreamReader streamReader = null;
+            listOfCredentials = new LinkedList<Credential>();
             try
             {
                 streamReader = new StreamReader(path);

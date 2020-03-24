@@ -74,6 +74,7 @@
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tabControl.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
             this.tabPageDocumentText.SuspendLayout();
@@ -89,7 +90,7 @@
             this.webBrowser.Location = new System.Drawing.Point(3, 3);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(854, 453);
+            this.webBrowser.Size = new System.Drawing.Size(947, 453);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser_Navigated);
             // 
@@ -152,7 +153,7 @@
             this.tabControl.Location = new System.Drawing.Point(12, 242);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(868, 485);
+            this.tabControl.Size = new System.Drawing.Size(961, 485);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageBrowser
@@ -163,7 +164,7 @@
             this.tabPageBrowser.Location = new System.Drawing.Point(4, 22);
             this.tabPageBrowser.Name = "tabPageBrowser";
             this.tabPageBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBrowser.Size = new System.Drawing.Size(860, 459);
+            this.tabPageBrowser.Size = new System.Drawing.Size(953, 459);
             this.tabPageBrowser.TabIndex = 0;
             this.tabPageBrowser.Text = "Web Browser";
             this.tabPageBrowser.UseVisualStyleBackColor = true;
@@ -174,7 +175,7 @@
             this.tabPageDocumentText.Location = new System.Drawing.Point(4, 22);
             this.tabPageDocumentText.Name = "tabPageDocumentText";
             this.tabPageDocumentText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDocumentText.Size = new System.Drawing.Size(860, 459);
+            this.tabPageDocumentText.Size = new System.Drawing.Size(953, 459);
             this.tabPageDocumentText.TabIndex = 1;
             this.tabPageDocumentText.Text = "Document Text";
             this.tabPageDocumentText.UseVisualStyleBackColor = true;
@@ -184,7 +185,7 @@
             this.richTextBoxDocumentText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxDocumentText.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxDocumentText.Name = "richTextBoxDocumentText";
-            this.richTextBoxDocumentText.Size = new System.Drawing.Size(854, 453);
+            this.richTextBoxDocumentText.Size = new System.Drawing.Size(947, 453);
             this.richTextBoxDocumentText.TabIndex = 0;
             this.richTextBoxDocumentText.Text = "";
             // 
@@ -420,6 +421,7 @@
             // 
             // buttonStart
             // 
+            this.buttonStart.Enabled = false;
             this.buttonStart.Location = new System.Drawing.Point(240, 144);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(124, 23);
@@ -561,7 +563,7 @@
             this.groupBox.Controls.Add(this.richTextBoxLog);
             this.groupBox.Location = new System.Drawing.Point(710, 8);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(170, 228);
+            this.groupBox.Size = new System.Drawing.Size(263, 228);
             this.groupBox.TabIndex = 20;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Log";
@@ -572,15 +574,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxLog.Location = new System.Drawing.Point(6, 16);
             this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(158, 206);
+            this.richTextBoxLog.Size = new System.Drawing.Size(251, 206);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 739);
+            this.ClientSize = new System.Drawing.Size(982, 739);
             this.Controls.Add(this.tabControlAttack);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.buttonRefresh);
@@ -653,6 +656,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxPostDelay;
         private System.Windows.Forms.TextBox textBoxRequestedUrl;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 
