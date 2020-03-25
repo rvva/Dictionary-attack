@@ -75,6 +75,8 @@
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.tabPagePOST = new System.Windows.Forms.TabPage();
+            this.richTextBoxPOST = new System.Windows.Forms.RichTextBox();
             this.tabControl.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
             this.tabPageDocumentText.SuspendLayout();
@@ -82,6 +84,7 @@
             this.tabPageSingleAttack.SuspendLayout();
             this.tabPageDictionaryAttack.SuspendLayout();
             this.groupBox.SuspendLayout();
+            this.tabPagePOST.SuspendLayout();
             this.SuspendLayout();
             // 
             // webBrowser
@@ -149,6 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageBrowser);
+            this.tabControl.Controls.Add(this.tabPagePOST);
             this.tabControl.Controls.Add(this.tabPageDocumentText);
             this.tabControl.Location = new System.Drawing.Point(12, 242);
             this.tabControl.Name = "tabControl";
@@ -579,6 +583,25 @@
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
             // 
+            // tabPagePOST
+            // 
+            this.tabPagePOST.Controls.Add(this.richTextBoxPOST);
+            this.tabPagePOST.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePOST.Name = "tabPagePOST";
+            this.tabPagePOST.Size = new System.Drawing.Size(953, 459);
+            this.tabPagePOST.TabIndex = 2;
+            this.tabPagePOST.Text = "POST Requests";
+            this.tabPagePOST.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxPOST
+            // 
+            this.richTextBoxPOST.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxPOST.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxPOST.Name = "richTextBoxPOST";
+            this.richTextBoxPOST.Size = new System.Drawing.Size(953, 459);
+            this.richTextBoxPOST.TabIndex = 0;
+            this.richTextBoxPOST.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,6 +618,8 @@
             this.ForeColor = System.Drawing.SystemColors.Desktop;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPageBrowser.ResumeLayout(false);
             this.tabPageDocumentText.ResumeLayout(false);
@@ -604,6 +629,7 @@
             this.tabPageDictionaryAttack.ResumeLayout(false);
             this.tabPageDictionaryAttack.PerformLayout();
             this.groupBox.ResumeLayout(false);
+            this.tabPagePOST.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -657,6 +683,8 @@
         private System.Windows.Forms.TextBox textBoxPostDelay;
         private System.Windows.Forms.TextBox textBoxRequestedUrl;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.TabPage tabPagePOST;
+        private System.Windows.Forms.RichTextBox richTextBoxPOST;
     }
 }
 

@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Fiddler;
 
 namespace BruteForceAttack
 {
     public partial class Form1 : Form
     {
         private Credentials credentials = new Credentials();
-        
+        delegate void updatePostLog();
+
         public Form1()
         {
             InitializeComponent();
@@ -351,6 +353,72 @@ namespace BruteForceAttack
         {
             richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
             richTextBoxLog.ScrollToCaret();
+        }
+
+        private void startFiddler()
+        {
+            FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete; ;
+            FiddlerApplication.Startup(8888, true, true, true);
+            InstallCertificate();
+        }
+
+        public bool InstallCertificate()
+        {
+            if (!CertMaker.rootCertExists())
+            {
+                if (!CertMaker.createRootCert())
+                    return false;
+
+                if (!CertMaker.trustRootCert())
+                    return false;
+
+                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.key", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
+                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.cert", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
+            }
+            return true;
+        }
+
+        private void FiddlerApplication_AfterSessionComplete(Session session)
+        {
+            string output = "";
+
+            if (session.RequestMethod == "POST")
+            {
+                string headers = session.oRequest.headers.ToString();
+                var reqBody = session.GetRequestBodyAsString();
+
+                string firstLine = session.RequestMethod + " " + session.fullUrl + " " + session.oRequest.headers.HTTPVersion;
+                int at = headers.IndexOf("\r\n");
+                if (at < 0)
+                    return;
+                headers = firstLine + "\r\n" + headers.Substring(at + 1);
+                string separator = new String('-', 200);
+
+                output = headers + "\r\n" +
+                         (!string.IsNullOrEmpty(reqBody) ? reqBody + "\r\n" : string.Empty) +
+                         separator + "\r\n\r\n";
+            }
+
+            richTextBoxPOST.Invoke(new updatePostLog(() =>
+            {
+                richTextBoxPOST.AppendText(output);
+            }));
+        }
+
+        private void stopFiddler()
+        {
+            FiddlerApplication.AfterSessionComplete -= FiddlerApplication_AfterSessionComplete;
+            FiddlerApplication.Shutdown();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            stopFiddler();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            startFiddler();
         }
     }
 }
