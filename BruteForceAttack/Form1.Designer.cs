@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.buttonGo = new System.Windows.Forms.Button();
@@ -36,8 +37,14 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageBrowser = new System.Windows.Forms.TabPage();
+            this.tabPagePOST = new System.Windows.Forms.TabPage();
+            this.richTextBoxPOST = new System.Windows.Forms.RichTextBox();
             this.tabPageDocumentText = new System.Windows.Forms.TabPage();
             this.richTextBoxDocumentText = new System.Windows.Forms.RichTextBox();
+            this.tabPageHTMLInputID = new System.Windows.Forms.TabPage();
+            this.listBoxInputID = new System.Windows.Forms.ListBox();
+            this.tabPageHTMLButtonID = new System.Windows.Forms.TabPage();
+            this.listBoxButtonID = new System.Windows.Forms.ListBox();
             this.tabControlAttack = new System.Windows.Forms.TabControl();
             this.tabPageSingleAttack = new System.Windows.Forms.TabPage();
             this.labelPostString = new System.Windows.Forms.Label();
@@ -71,20 +78,34 @@
             this.textBoxPostStringSyntax = new System.Windows.Forms.TextBox();
             this.labelPostUrlDictionary = new System.Windows.Forms.Label();
             this.textBoxPostUrlDictionary = new System.Windows.Forms.TextBox();
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.tabPageIDAttack = new System.Windows.Forms.TabPage();
+            this.buttonSingleIDAttack = new System.Windows.Forms.Button();
+            this.labelPassword_SIdA = new System.Windows.Forms.Label();
+            this.labelLogin_SIdA = new System.Windows.Forms.Label();
+            this.labelButtonID = new System.Windows.Forms.Label();
+            this.labelPasswordInputID = new System.Windows.Forms.Label();
+            this.labelLoginInputID = new System.Windows.Forms.Label();
+            this.textBoxPassword_SIdA = new System.Windows.Forms.TextBox();
+            this.textBoxLogin_SIdA = new System.Windows.Forms.TextBox();
+            this.textBoxButtonID = new System.Windows.Forms.TextBox();
+            this.textBoxPasswordID = new System.Windows.Forms.TextBox();
+            this.textBoxLoginID = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabPagePOST = new System.Windows.Forms.TabPage();
-            this.richTextBoxPOST = new System.Windows.Forms.RichTextBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.groupBox = new System.Windows.Forms.GroupBox();
             this.tabControl.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
+            this.tabPagePOST.SuspendLayout();
             this.tabPageDocumentText.SuspendLayout();
+            this.tabPageHTMLInputID.SuspendLayout();
+            this.tabPageHTMLButtonID.SuspendLayout();
             this.tabControlAttack.SuspendLayout();
             this.tabPageSingleAttack.SuspendLayout();
             this.tabPageDictionaryAttack.SuspendLayout();
+            this.tabPageIDAttack.SuspendLayout();
             this.groupBox.SuspendLayout();
-            this.tabPagePOST.SuspendLayout();
             this.SuspendLayout();
             // 
             // webBrowser
@@ -154,6 +175,8 @@
             this.tabControl.Controls.Add(this.tabPageBrowser);
             this.tabControl.Controls.Add(this.tabPagePOST);
             this.tabControl.Controls.Add(this.tabPageDocumentText);
+            this.tabControl.Controls.Add(this.tabPageHTMLInputID);
+            this.tabControl.Controls.Add(this.tabPageHTMLButtonID);
             this.tabControl.Location = new System.Drawing.Point(12, 242);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -172,6 +195,26 @@
             this.tabPageBrowser.TabIndex = 0;
             this.tabPageBrowser.Text = "Web Browser";
             this.tabPageBrowser.UseVisualStyleBackColor = true;
+            // 
+            // tabPagePOST
+            // 
+            this.tabPagePOST.Controls.Add(this.richTextBoxPOST);
+            this.tabPagePOST.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePOST.Name = "tabPagePOST";
+            this.tabPagePOST.Size = new System.Drawing.Size(953, 459);
+            this.tabPagePOST.TabIndex = 2;
+            this.tabPagePOST.Text = "POST Requests";
+            this.tabPagePOST.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxPOST
+            // 
+            this.richTextBoxPOST.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxPOST.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxPOST.Name = "richTextBoxPOST";
+            this.richTextBoxPOST.Size = new System.Drawing.Size(953, 459);
+            this.richTextBoxPOST.TabIndex = 0;
+            this.richTextBoxPOST.Text = "";
+            this.richTextBoxPOST.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
             // 
             // tabPageDocumentText
             // 
@@ -193,10 +236,53 @@
             this.richTextBoxDocumentText.TabIndex = 0;
             this.richTextBoxDocumentText.Text = "";
             // 
+            // tabPageHTMLInputID
+            // 
+            this.tabPageHTMLInputID.Controls.Add(this.listBoxInputID);
+            this.tabPageHTMLInputID.Location = new System.Drawing.Point(4, 22);
+            this.tabPageHTMLInputID.Name = "tabPageHTMLInputID";
+            this.tabPageHTMLInputID.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageHTMLInputID.Size = new System.Drawing.Size(953, 459);
+            this.tabPageHTMLInputID.TabIndex = 3;
+            this.tabPageHTMLInputID.Text = "HTML Input IDs";
+            this.tabPageHTMLInputID.UseVisualStyleBackColor = true;
+            // 
+            // listBoxInputID
+            // 
+            this.listBoxInputID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxInputID.FormattingEnabled = true;
+            this.listBoxInputID.Location = new System.Drawing.Point(3, 3);
+            this.listBoxInputID.Name = "listBoxInputID";
+            this.listBoxInputID.Size = new System.Drawing.Size(947, 453);
+            this.listBoxInputID.TabIndex = 0;
+            this.listBoxInputID.SelectedIndexChanged += new System.EventHandler(this.listBoxID_SelectedIndexChanged);
+            // 
+            // tabPageHTMLButtonID
+            // 
+            this.tabPageHTMLButtonID.Controls.Add(this.listBoxButtonID);
+            this.tabPageHTMLButtonID.Location = new System.Drawing.Point(4, 22);
+            this.tabPageHTMLButtonID.Name = "tabPageHTMLButtonID";
+            this.tabPageHTMLButtonID.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageHTMLButtonID.Size = new System.Drawing.Size(953, 459);
+            this.tabPageHTMLButtonID.TabIndex = 4;
+            this.tabPageHTMLButtonID.Text = "HTML Button IDs";
+            this.tabPageHTMLButtonID.UseVisualStyleBackColor = true;
+            // 
+            // listBoxButtonID
+            // 
+            this.listBoxButtonID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxButtonID.FormattingEnabled = true;
+            this.listBoxButtonID.Location = new System.Drawing.Point(3, 3);
+            this.listBoxButtonID.Name = "listBoxButtonID";
+            this.listBoxButtonID.Size = new System.Drawing.Size(947, 453);
+            this.listBoxButtonID.TabIndex = 0;
+            this.listBoxButtonID.SelectedIndexChanged += new System.EventHandler(this.listBoxID_SelectedIndexChanged);
+            // 
             // tabControlAttack
             // 
             this.tabControlAttack.Controls.Add(this.tabPageSingleAttack);
             this.tabControlAttack.Controls.Add(this.tabPageDictionaryAttack);
+            this.tabControlAttack.Controls.Add(this.tabPageIDAttack);
             this.tabControlAttack.Location = new System.Drawing.Point(12, 38);
             this.tabControlAttack.Name = "tabControlAttack";
             this.tabControlAttack.SelectedIndex = 0;
@@ -560,6 +646,148 @@
             this.textBoxPostUrlDictionary.Size = new System.Drawing.Size(215, 20);
             this.textBoxPostUrlDictionary.TabIndex = 17;
             // 
+            // tabPageIDAttack
+            // 
+            this.tabPageIDAttack.Controls.Add(this.buttonSingleIDAttack);
+            this.tabPageIDAttack.Controls.Add(this.labelPassword_SIdA);
+            this.tabPageIDAttack.Controls.Add(this.labelLogin_SIdA);
+            this.tabPageIDAttack.Controls.Add(this.labelButtonID);
+            this.tabPageIDAttack.Controls.Add(this.labelPasswordInputID);
+            this.tabPageIDAttack.Controls.Add(this.labelLoginInputID);
+            this.tabPageIDAttack.Controls.Add(this.textBoxPassword_SIdA);
+            this.tabPageIDAttack.Controls.Add(this.textBoxLogin_SIdA);
+            this.tabPageIDAttack.Controls.Add(this.textBoxButtonID);
+            this.tabPageIDAttack.Controls.Add(this.textBoxPasswordID);
+            this.tabPageIDAttack.Controls.Add(this.textBoxLoginID);
+            this.tabPageIDAttack.Location = new System.Drawing.Point(4, 22);
+            this.tabPageIDAttack.Name = "tabPageIDAttack";
+            this.tabPageIDAttack.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageIDAttack.Size = new System.Drawing.Size(684, 172);
+            this.tabPageIDAttack.TabIndex = 3;
+            this.tabPageIDAttack.Text = "Single ID Attack";
+            this.tabPageIDAttack.UseVisualStyleBackColor = true;
+            // 
+            // buttonSingleIDAttack
+            // 
+            this.buttonSingleIDAttack.Enabled = false;
+            this.buttonSingleIDAttack.Location = new System.Drawing.Point(451, 101);
+            this.buttonSingleIDAttack.Name = "buttonSingleIDAttack";
+            this.buttonSingleIDAttack.Size = new System.Drawing.Size(130, 47);
+            this.buttonSingleIDAttack.TabIndex = 10;
+            this.buttonSingleIDAttack.Text = "Log in";
+            this.buttonSingleIDAttack.UseVisualStyleBackColor = true;
+            this.buttonSingleIDAttack.Click += new System.EventHandler(this.buttonSingleIDAttack_Click);
+            // 
+            // labelPassword_SIdA
+            // 
+            this.labelPassword_SIdA.AutoSize = true;
+            this.labelPassword_SIdA.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelPassword_SIdA.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelPassword_SIdA.Location = new System.Drawing.Point(123, 131);
+            this.labelPassword_SIdA.Name = "labelPassword_SIdA";
+            this.labelPassword_SIdA.Size = new System.Drawing.Size(73, 15);
+            this.labelPassword_SIdA.TabIndex = 9;
+            this.labelPassword_SIdA.Text = "Password:";
+            // 
+            // labelLogin_SIdA
+            // 
+            this.labelLogin_SIdA.AutoSize = true;
+            this.labelLogin_SIdA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLogin_SIdA.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelLogin_SIdA.Location = new System.Drawing.Point(154, 104);
+            this.labelLogin_SIdA.Name = "labelLogin_SIdA";
+            this.labelLogin_SIdA.Size = new System.Drawing.Size(42, 13);
+            this.labelLogin_SIdA.TabIndex = 8;
+            this.labelLogin_SIdA.Text = "Login:";
+            // 
+            // labelButtonID
+            // 
+            this.labelButtonID.AutoSize = true;
+            this.labelButtonID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelButtonID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelButtonID.Location = new System.Drawing.Point(132, 74);
+            this.labelButtonID.Name = "labelButtonID";
+            this.labelButtonID.Size = new System.Drawing.Size(70, 15);
+            this.labelButtonID.TabIndex = 7;
+            this.labelButtonID.Text = "Button ID:";
+            // 
+            // labelPasswordInputID
+            // 
+            this.labelPasswordInputID.AutoSize = true;
+            this.labelPasswordInputID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelPasswordInputID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelPasswordInputID.Location = new System.Drawing.Point(75, 47);
+            this.labelPasswordInputID.Name = "labelPasswordInputID";
+            this.labelPasswordInputID.Size = new System.Drawing.Size(127, 15);
+            this.labelPasswordInputID.TabIndex = 6;
+            this.labelPasswordInputID.Text = "Password input ID:";
+            // 
+            // labelLoginInputID
+            // 
+            this.labelLoginInputID.AutoSize = true;
+            this.labelLoginInputID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLoginInputID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelLoginInputID.Location = new System.Drawing.Point(101, 21);
+            this.labelLoginInputID.Name = "labelLoginInputID";
+            this.labelLoginInputID.Size = new System.Drawing.Size(101, 15);
+            this.labelLoginInputID.TabIndex = 5;
+            this.labelLoginInputID.Text = "Login input ID:";
+            // 
+            // textBoxPassword_SIdA
+            // 
+            this.textBoxPassword_SIdA.Location = new System.Drawing.Point(208, 128);
+            this.textBoxPassword_SIdA.Name = "textBoxPassword_SIdA";
+            this.textBoxPassword_SIdA.Size = new System.Drawing.Size(215, 20);
+            this.textBoxPassword_SIdA.TabIndex = 4;
+            // 
+            // textBoxLogin_SIdA
+            // 
+            this.textBoxLogin_SIdA.Location = new System.Drawing.Point(208, 101);
+            this.textBoxLogin_SIdA.Name = "textBoxLogin_SIdA";
+            this.textBoxLogin_SIdA.Size = new System.Drawing.Size(215, 20);
+            this.textBoxLogin_SIdA.TabIndex = 3;
+            // 
+            // textBoxButtonID
+            // 
+            this.textBoxButtonID.Location = new System.Drawing.Point(208, 74);
+            this.textBoxButtonID.Name = "textBoxButtonID";
+            this.textBoxButtonID.Size = new System.Drawing.Size(215, 20);
+            this.textBoxButtonID.TabIndex = 2;
+            this.textBoxButtonID.TextChanged += new System.EventHandler(this.textBoxButtonID_TextChanged);
+            // 
+            // textBoxPasswordID
+            // 
+            this.textBoxPasswordID.Location = new System.Drawing.Point(208, 47);
+            this.textBoxPasswordID.Name = "textBoxPasswordID";
+            this.textBoxPasswordID.Size = new System.Drawing.Size(215, 20);
+            this.textBoxPasswordID.TabIndex = 1;
+            // 
+            // textBoxLoginID
+            // 
+            this.textBoxLoginID.Location = new System.Drawing.Point(208, 20);
+            this.textBoxLoginID.Name = "textBoxLoginID";
+            this.textBoxLoginID.Size = new System.Drawing.Size(215, 20);
+            this.textBoxLoginID.TabIndex = 0;
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutoPopDelay = 7000;
+            this.toolTip.InitialDelay = 1;
+            this.toolTip.ReshowDelay = 1;
+            this.toolTip.ShowAlways = true;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxLog.Location = new System.Drawing.Point(6, 16);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.Size = new System.Drawing.Size(251, 206);
+            this.richTextBoxLog.TabIndex = 0;
+            this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
+            // 
             // groupBox
             // 
             this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -571,36 +799,6 @@
             this.groupBox.TabIndex = 20;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Log";
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxLog.Location = new System.Drawing.Point(6, 16);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(251, 206);
-            this.richTextBoxLog.TabIndex = 0;
-            this.richTextBoxLog.Text = "";
-            this.richTextBoxLog.TextChanged += new System.EventHandler(this.richTextBoxLog_TextChanged);
-            // 
-            // tabPagePOST
-            // 
-            this.tabPagePOST.Controls.Add(this.richTextBoxPOST);
-            this.tabPagePOST.Location = new System.Drawing.Point(4, 22);
-            this.tabPagePOST.Name = "tabPagePOST";
-            this.tabPagePOST.Size = new System.Drawing.Size(953, 459);
-            this.tabPagePOST.TabIndex = 2;
-            this.tabPagePOST.Text = "POST Requests";
-            this.tabPagePOST.UseVisualStyleBackColor = true;
-            // 
-            // richTextBoxPOST
-            // 
-            this.richTextBoxPOST.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxPOST.Location = new System.Drawing.Point(0, 0);
-            this.richTextBoxPOST.Name = "richTextBoxPOST";
-            this.richTextBoxPOST.Size = new System.Drawing.Size(953, 459);
-            this.richTextBoxPOST.TabIndex = 0;
-            this.richTextBoxPOST.Text = "";
             // 
             // Form1
             // 
@@ -622,14 +820,18 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPageBrowser.ResumeLayout(false);
+            this.tabPagePOST.ResumeLayout(false);
             this.tabPageDocumentText.ResumeLayout(false);
+            this.tabPageHTMLInputID.ResumeLayout(false);
+            this.tabPageHTMLButtonID.ResumeLayout(false);
             this.tabControlAttack.ResumeLayout(false);
             this.tabPageSingleAttack.ResumeLayout(false);
             this.tabPageSingleAttack.PerformLayout();
             this.tabPageDictionaryAttack.ResumeLayout(false);
             this.tabPageDictionaryAttack.PerformLayout();
+            this.tabPageIDAttack.ResumeLayout(false);
+            this.tabPageIDAttack.PerformLayout();
             this.groupBox.ResumeLayout(false);
-            this.tabPagePOST.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -662,8 +864,6 @@
         private System.Windows.Forms.TextBox textBoxPostUrl;
         private System.Windows.Forms.Label labelLogin;
         private System.Windows.Forms.ComboBox comboBoxEncode;
-        private System.Windows.Forms.GroupBox groupBox;
-        private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonLoadFromFile;
         private System.Windows.Forms.Label labelLoadFromFile;
@@ -685,6 +885,25 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.TabPage tabPagePOST;
         private System.Windows.Forms.RichTextBox richTextBoxPOST;
+        private System.Windows.Forms.TabPage tabPageHTMLInputID;
+        private System.Windows.Forms.ListBox listBoxInputID;
+        private System.Windows.Forms.TabPage tabPageHTMLButtonID;
+        private System.Windows.Forms.ListBox listBoxButtonID;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.TabPage tabPageIDAttack;
+        private System.Windows.Forms.Label labelPassword_SIdA;
+        private System.Windows.Forms.Label labelLogin_SIdA;
+        private System.Windows.Forms.Label labelButtonID;
+        private System.Windows.Forms.Label labelPasswordInputID;
+        private System.Windows.Forms.Label labelLoginInputID;
+        private System.Windows.Forms.TextBox textBoxPassword_SIdA;
+        private System.Windows.Forms.TextBox textBoxLogin_SIdA;
+        private System.Windows.Forms.TextBox textBoxButtonID;
+        private System.Windows.Forms.TextBox textBoxPasswordID;
+        private System.Windows.Forms.TextBox textBoxLoginID;
+        private System.Windows.Forms.RichTextBox richTextBoxLog;
+        private System.Windows.Forms.GroupBox groupBox;
+        private System.Windows.Forms.Button buttonSingleIDAttack;
     }
 }
 

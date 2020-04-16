@@ -22,3 +22,6 @@ C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\obj\Debug\Di
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\obj\Debug\DictionaryAttack.csproj.CopyComplete
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.exe
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\obj\Debug\BruteForceAttack.pdb
+C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.dll
+C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.xml

