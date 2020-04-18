@@ -25,3 +25,5 @@ C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\obj\Debug\Br
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.dll
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.pdb
 C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\HtmlAgilityPack.xml
+C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\ScintillaNET.dll
+C:\Users\qqs\source\repos\Sniffer\BruteForceAttack\BruteForceAttack\bin\Debug\ScintillaNET.xml

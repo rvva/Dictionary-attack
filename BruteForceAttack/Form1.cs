@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Fiddler;
 using HtmlAgilityPack;
+using ScintillaNET;
 
 namespace BruteForceAttack
 {
@@ -24,11 +25,14 @@ namespace BruteForceAttack
         public Form1()
         {
             InitializeComponent();
+      
             textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
             webBrowser.Navigate(textBoxUrl.Text);
-            richTextBoxDocumentText.Text = webBrowser.DocumentText;
 
-            //Highlighter.highlightHTMLText(richTextBoxDocumentText);
+            ScintillaConfig.loadHtmlStyleConfig(scintillaDocumentTextBox);
+            scintillaDocumentTextBox.Text = webBrowser.DocumentText;
+
+           // Highlighter.highlightHTMLText(richTextBoxDocumentText);
 
             comboBoxEncode.SelectedIndex = 0;
             comboBoxEncodeTypeDictionary.SelectedIndex = 0;
@@ -39,8 +43,6 @@ namespace BruteForceAttack
 
             toolTip.SetToolTip(listBoxInputID, "Click on an item to copy it to the clipboard.");
             toolTip.SetToolTip(listBoxButtonID, "Click on an item to copy it to the clipboard.");
-
-
         }
 
         private void updatePostURL()
@@ -125,8 +127,8 @@ namespace BruteForceAttack
             if (textBoxUrl.Text != e.Url.ToString())
             {
                 textBoxUrl.Text = e.Url.ToString();
-                richTextBoxDocumentText.Text = webBrowser.DocumentText;
-                //  Highlighter.highlightHTMLText(richTextBoxDocumentText);
+                scintillaDocumentTextBox.Text = webBrowser.DocumentText;
+                //Highlighter.highlightHTMLText(richTextBoxDocumentText);
                 updateIDs("//input", listBoxInputID);
                 updateIDs("//button", listBoxButtonID);
             }
@@ -182,7 +184,7 @@ namespace BruteForceAttack
                 textBoxRequestedUrl.Visible = false;
         }
 
-        private void buttonLoadFromFile_Click(object sender, EventArgs e)
+        private void buttonLoadFromFile_Click(object sender, EventArgs e, Button button)
         {
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -196,7 +198,7 @@ namespace BruteForceAttack
 
                 if (credentials.ListOfCredentials.Count > 0)
                 {
-                    buttonStart.Enabled = true;
+                    button.Enabled = true;
                     richTextBoxLog.AppendText(getTime() + ' ' + "-! Dictionary loaded from file !-\n");
                     richTextBoxLog.AppendText(credentials.credentialsListToString()); // load to log container
                 }
@@ -460,11 +462,15 @@ namespace BruteForceAttack
             HtmlAgilityPack.HtmlDocument document = new HtmlAgilityPack.HtmlDocument();
             document.Load(new StringReader(webBrowser.DocumentText));
             HtmlNodeCollection inputIDs = document.DocumentNode.SelectNodes(xpath);
-            foreach (var item in inputIDs)
-            {
-                if (!String.IsNullOrEmpty(item.GetAttributeValue("id", "")))
-                    listBox.Items.Add(item.GetAttributeValue("id", ""));
 
+            if (inputIDs != null)
+            {
+                foreach (var item in inputIDs)
+                {
+                    if (!String.IsNullOrEmpty(item.GetAttributeValue("id", "")))
+                        listBox.Items.Add(item.GetAttributeValue("id", ""));
+
+                }
             }
         }
 
@@ -553,6 +559,8 @@ namespace BruteForceAttack
             else
                 buttonSingleIDAttack.Enabled = false;
         }
+
+    
     }
 }
 

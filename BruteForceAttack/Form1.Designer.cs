@@ -1,4 +1,6 @@
-﻿namespace BruteForceAttack
+﻿using ScintillaNET;
+
+namespace BruteForceAttack
 {
     partial class Form1
     {
@@ -40,7 +42,7 @@
             this.tabPagePOST = new System.Windows.Forms.TabPage();
             this.richTextBoxPOST = new System.Windows.Forms.RichTextBox();
             this.tabPageDocumentText = new System.Windows.Forms.TabPage();
-            this.richTextBoxDocumentText = new System.Windows.Forms.RichTextBox();
+            this.scintillaDocumentTextBox = new ScintillaNET.Scintilla();
             this.tabPageHTMLInputID = new System.Windows.Forms.TabPage();
             this.listBoxInputID = new System.Windows.Forms.ListBox();
             this.tabPageHTMLButtonID = new System.Windows.Forms.TabPage();
@@ -90,6 +92,18 @@
             this.textBoxButtonID = new System.Windows.Forms.TextBox();
             this.textBoxPasswordID = new System.Windows.Forms.TextBox();
             this.textBoxLoginID = new System.Windows.Forms.TextBox();
+            this.tabPageIDDictionaryAttack = new System.Windows.Forms.TabPage();
+            this.buttonStartIdAttack = new System.Windows.Forms.Button();
+            this.labelPerformIdAttack = new System.Windows.Forms.Label();
+            this.checkBoxPasswordsOnly = new System.Windows.Forms.CheckBox();
+            this.buttonLoadDictionaryID = new System.Windows.Forms.Button();
+            this.labelLoadDictionaryFromFileID = new System.Windows.Forms.Label();
+            this.labelButtonIdDictionary = new System.Windows.Forms.Label();
+            this.labelPasswordIdDictionary = new System.Windows.Forms.Label();
+            this.textBoxButtonIdDictionary = new System.Windows.Forms.TextBox();
+            this.textBoxPasswordIdDictionary = new System.Windows.Forms.TextBox();
+            this.textBoxLoginIdDictionary = new System.Windows.Forms.TextBox();
+            this.labelLoginIdDictionary = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -105,6 +119,7 @@
             this.tabPageSingleAttack.SuspendLayout();
             this.tabPageDictionaryAttack.SuspendLayout();
             this.tabPageIDAttack.SuspendLayout();
+            this.tabPageIDDictionaryAttack.SuspendLayout();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -218,7 +233,7 @@
             // 
             // tabPageDocumentText
             // 
-            this.tabPageDocumentText.Controls.Add(this.richTextBoxDocumentText);
+            this.tabPageDocumentText.Controls.Add(this.scintillaDocumentTextBox);
             this.tabPageDocumentText.Location = new System.Drawing.Point(4, 22);
             this.tabPageDocumentText.Name = "tabPageDocumentText";
             this.tabPageDocumentText.Padding = new System.Windows.Forms.Padding(3);
@@ -227,14 +242,14 @@
             this.tabPageDocumentText.Text = "Document Text";
             this.tabPageDocumentText.UseVisualStyleBackColor = true;
             // 
-            // richTextBoxDocumentText
+            // scintillaDocumentTextBox
             // 
-            this.richTextBoxDocumentText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxDocumentText.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxDocumentText.Name = "richTextBoxDocumentText";
-            this.richTextBoxDocumentText.Size = new System.Drawing.Size(947, 453);
-            this.richTextBoxDocumentText.TabIndex = 0;
-            this.richTextBoxDocumentText.Text = "";
+            this.scintillaDocumentTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintillaDocumentTextBox.FontQuality = ScintillaNET.FontQuality.LcdOptimized;
+            this.scintillaDocumentTextBox.Location = new System.Drawing.Point(3, 3);
+            this.scintillaDocumentTextBox.Name = "scintillaDocumentTextBox";
+            this.scintillaDocumentTextBox.Size = new System.Drawing.Size(947, 453);
+            this.scintillaDocumentTextBox.TabIndex = 1;
             // 
             // tabPageHTMLInputID
             // 
@@ -283,6 +298,7 @@
             this.tabControlAttack.Controls.Add(this.tabPageSingleAttack);
             this.tabControlAttack.Controls.Add(this.tabPageDictionaryAttack);
             this.tabControlAttack.Controls.Add(this.tabPageIDAttack);
+            this.tabControlAttack.Controls.Add(this.tabPageIDDictionaryAttack);
             this.tabControlAttack.Location = new System.Drawing.Point(12, 38);
             this.tabControlAttack.Name = "tabControlAttack";
             this.tabControlAttack.SelectedIndex = 0;
@@ -528,7 +544,7 @@
             this.buttonLoadFromFile.TabIndex = 28;
             this.buttonLoadFromFile.Text = "Load...";
             this.buttonLoadFromFile.UseVisualStyleBackColor = true;
-            this.buttonLoadFromFile.Click += new System.EventHandler(this.buttonLoadFromFile_Click);
+            this.buttonLoadFromFile.Click += new System.EventHandler((sender, e) => buttonLoadFromFile_Click(sender, e, buttonStart));
             // 
             // labelLoadFromFile
             // 
@@ -769,6 +785,130 @@
             this.textBoxLoginID.Size = new System.Drawing.Size(215, 20);
             this.textBoxLoginID.TabIndex = 0;
             // 
+            // tabPageIDDictionaryAttack
+            // 
+            this.tabPageIDDictionaryAttack.Controls.Add(this.buttonStartIdAttack);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelPerformIdAttack);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.checkBoxPasswordsOnly);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.buttonLoadDictionaryID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelLoadDictionaryFromFileID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelButtonIdDictionary);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelPasswordIdDictionary);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.textBoxButtonIdDictionary);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.textBoxPasswordIdDictionary);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.textBoxLoginIdDictionary);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelLoginIdDictionary);
+            this.tabPageIDDictionaryAttack.Location = new System.Drawing.Point(4, 22);
+            this.tabPageIDDictionaryAttack.Name = "tabPageIDDictionaryAttack";
+            this.tabPageIDDictionaryAttack.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageIDDictionaryAttack.Size = new System.Drawing.Size(684, 172);
+            this.tabPageIDDictionaryAttack.TabIndex = 4;
+            this.tabPageIDDictionaryAttack.Text = "Dictionary ID Attack";
+            this.tabPageIDDictionaryAttack.UseVisualStyleBackColor = true;
+            // 
+            // buttonStartIdAttack
+            // 
+            this.buttonStartIdAttack.Location = new System.Drawing.Point(223, 124);
+            this.buttonStartIdAttack.Name = "buttonStartIdAttack";
+            this.buttonStartIdAttack.Size = new System.Drawing.Size(98, 23);
+            this.buttonStartIdAttack.TabIndex = 10;
+            this.buttonStartIdAttack.Text = "START";
+            this.buttonStartIdAttack.UseVisualStyleBackColor = true;
+            // 
+            // labelPerformIdAttack
+            // 
+            this.labelPerformIdAttack.AutoSize = true;
+            this.labelPerformIdAttack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelPerformIdAttack.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelPerformIdAttack.Location = new System.Drawing.Point(113, 127);
+            this.labelPerformIdAttack.Name = "labelPerformIdAttack";
+            this.labelPerformIdAttack.Size = new System.Drawing.Size(104, 15);
+            this.labelPerformIdAttack.TabIndex = 9;
+            this.labelPerformIdAttack.Text = "Perform attack:";
+            // 
+            // checkBoxPasswordsOnly
+            // 
+            this.checkBoxPasswordsOnly.AutoSize = true;
+            this.checkBoxPasswordsOnly.Location = new System.Drawing.Point(339, 102);
+            this.checkBoxPasswordsOnly.Name = "checkBoxPasswordsOnly";
+            this.checkBoxPasswordsOnly.Size = new System.Drawing.Size(99, 17);
+            this.checkBoxPasswordsOnly.TabIndex = 8;
+            this.checkBoxPasswordsOnly.Text = "Passwords only";
+            this.checkBoxPasswordsOnly.UseVisualStyleBackColor = true;
+            // 
+            // buttonLoadDictionaryID
+            // 
+            this.buttonLoadDictionaryID.Location = new System.Drawing.Point(223, 98);
+            this.buttonLoadDictionaryID.Name = "buttonLoadDictionaryID";
+            this.buttonLoadDictionaryID.Size = new System.Drawing.Size(98, 23);
+            this.buttonLoadDictionaryID.TabIndex = 7;
+            this.buttonLoadDictionaryID.Text = "Load...";
+            this.buttonLoadDictionaryID.UseVisualStyleBackColor = true;
+            // 
+            // labelLoadDictionaryFromFileID
+            // 
+            this.labelLoadDictionaryFromFileID.AutoSize = true;
+            this.labelLoadDictionaryFromFileID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLoadDictionaryFromFileID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelLoadDictionaryFromFileID.Location = new System.Drawing.Point(51, 98);
+            this.labelLoadDictionaryFromFileID.Name = "labelLoadDictionaryFromFileID";
+            this.labelLoadDictionaryFromFileID.Size = new System.Drawing.Size(166, 15);
+            this.labelLoadDictionaryFromFileID.TabIndex = 6;
+            this.labelLoadDictionaryFromFileID.Text = "Load dictionary from file:";
+            // 
+            // labelButtonIdDictionary
+            // 
+            this.labelButtonIdDictionary.AutoSize = true;
+            this.labelButtonIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelButtonIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelButtonIdDictionary.Location = new System.Drawing.Point(147, 73);
+            this.labelButtonIdDictionary.Name = "labelButtonIdDictionary";
+            this.labelButtonIdDictionary.Size = new System.Drawing.Size(70, 15);
+            this.labelButtonIdDictionary.TabIndex = 5;
+            this.labelButtonIdDictionary.Text = "Button ID:";
+            // 
+            // labelPasswordIdDictionary
+            // 
+            this.labelPasswordIdDictionary.AutoSize = true;
+            this.labelPasswordIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelPasswordIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelPasswordIdDictionary.Location = new System.Drawing.Point(90, 46);
+            this.labelPasswordIdDictionary.Name = "labelPasswordIdDictionary";
+            this.labelPasswordIdDictionary.Size = new System.Drawing.Size(127, 15);
+            this.labelPasswordIdDictionary.TabIndex = 4;
+            this.labelPasswordIdDictionary.Text = "Password input ID:";
+            // 
+            // textBoxButtonIdDictionary
+            // 
+            this.textBoxButtonIdDictionary.Location = new System.Drawing.Point(223, 72);
+            this.textBoxButtonIdDictionary.Name = "textBoxButtonIdDictionary";
+            this.textBoxButtonIdDictionary.Size = new System.Drawing.Size(215, 20);
+            this.textBoxButtonIdDictionary.TabIndex = 3;
+            // 
+            // textBoxPasswordIdDictionary
+            // 
+            this.textBoxPasswordIdDictionary.Location = new System.Drawing.Point(223, 45);
+            this.textBoxPasswordIdDictionary.Name = "textBoxPasswordIdDictionary";
+            this.textBoxPasswordIdDictionary.Size = new System.Drawing.Size(215, 20);
+            this.textBoxPasswordIdDictionary.TabIndex = 2;
+            // 
+            // textBoxLoginIdDictionary
+            // 
+            this.textBoxLoginIdDictionary.Location = new System.Drawing.Point(223, 18);
+            this.textBoxLoginIdDictionary.Name = "textBoxLoginIdDictionary";
+            this.textBoxLoginIdDictionary.Size = new System.Drawing.Size(215, 20);
+            this.textBoxLoginIdDictionary.TabIndex = 1;
+            // 
+            // labelLoginIdDictionary
+            // 
+            this.labelLoginIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelLoginIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelLoginIdDictionary.Location = new System.Drawing.Point(115, 21);
+            this.labelLoginIdDictionary.Name = "labelLoginIdDictionary";
+            this.labelLoginIdDictionary.Size = new System.Drawing.Size(102, 20);
+            this.labelLoginIdDictionary.TabIndex = 0;
+            this.labelLoginIdDictionary.Text = "Login input ID:";
+            // 
             // toolTip
             // 
             this.toolTip.AutoPopDelay = 7000;
@@ -831,6 +971,8 @@
             this.tabPageDictionaryAttack.PerformLayout();
             this.tabPageIDAttack.ResumeLayout(false);
             this.tabPageIDAttack.PerformLayout();
+            this.tabPageIDDictionaryAttack.ResumeLayout(false);
+            this.tabPageIDDictionaryAttack.PerformLayout();
             this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -847,7 +989,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageBrowser;
         private System.Windows.Forms.TabPage tabPageDocumentText;
-        private System.Windows.Forms.RichTextBox richTextBoxDocumentText;
+        private Scintilla scintillaDocumentTextBox;
         private System.Windows.Forms.TabControl tabControlAttack;
         private System.Windows.Forms.TabPage tabPageDictionaryAttack;
         private System.Windows.Forms.TabPage tabPageSingleAttack;
@@ -904,6 +1046,18 @@
         private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.Button buttonSingleIDAttack;
+        private System.Windows.Forms.TabPage tabPageIDDictionaryAttack;
+        private System.Windows.Forms.Label labelLoginIdDictionary;
+        private System.Windows.Forms.TextBox textBoxPasswordIdDictionary;
+        private System.Windows.Forms.TextBox textBoxLoginIdDictionary;
+        private System.Windows.Forms.TextBox textBoxButtonIdDictionary;
+        private System.Windows.Forms.Label labelButtonIdDictionary;
+        private System.Windows.Forms.Label labelPasswordIdDictionary;
+        private System.Windows.Forms.Button buttonStartIdAttack;
+        private System.Windows.Forms.Label labelPerformIdAttack;
+        private System.Windows.Forms.CheckBox checkBoxPasswordsOnly;
+        private System.Windows.Forms.Button buttonLoadDictionaryID;
+        private System.Windows.Forms.Label labelLoadDictionaryFromFileID;
     }
 }
 
