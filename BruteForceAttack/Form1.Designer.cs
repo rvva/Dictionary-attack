@@ -93,10 +93,14 @@ namespace BruteForceAttack
             this.textBoxPasswordID = new System.Windows.Forms.TextBox();
             this.textBoxLoginID = new System.Windows.Forms.TextBox();
             this.tabPageIDDictionaryAttack = new System.Windows.Forms.TabPage();
+            this.labelStopConditionsID = new System.Windows.Forms.Label();
+            this.comboBoxStopConditionsID = new System.Windows.Forms.ComboBox();
+            this.textBoxDelayID = new System.Windows.Forms.TextBox();
+            this.labelDelayID = new System.Windows.Forms.Label();
             this.buttonStartIdAttack = new System.Windows.Forms.Button();
             this.labelPerformIdAttack = new System.Windows.Forms.Label();
             this.checkBoxPasswordsOnly = new System.Windows.Forms.CheckBox();
-            this.buttonLoadDictionaryID = new System.Windows.Forms.Button();
+            this.buttonLoadFormFileID = new System.Windows.Forms.Button();
             this.labelLoadDictionaryFromFileID = new System.Windows.Forms.Label();
             this.labelButtonIdDictionary = new System.Windows.Forms.Label();
             this.labelPasswordIdDictionary = new System.Windows.Forms.Label();
@@ -109,6 +113,7 @@ namespace BruteForceAttack
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.textBoxRequestedUrlID = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
             this.tabPagePOST.SuspendLayout();
@@ -544,7 +549,7 @@ namespace BruteForceAttack
             this.buttonLoadFromFile.TabIndex = 28;
             this.buttonLoadFromFile.Text = "Load...";
             this.buttonLoadFromFile.UseVisualStyleBackColor = true;
-            this.buttonLoadFromFile.Click += new System.EventHandler((sender, e) => buttonLoadFromFile_Click(sender, e, buttonStart));
+            this.buttonLoadFromFile.Click += new System.EventHandler(this.buttonLoadFromFile_Click);
             // 
             // labelLoadFromFile
             // 
@@ -787,10 +792,15 @@ namespace BruteForceAttack
             // 
             // tabPageIDDictionaryAttack
             // 
+            this.tabPageIDDictionaryAttack.Controls.Add(this.textBoxRequestedUrlID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelStopConditionsID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.comboBoxStopConditionsID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.textBoxDelayID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.labelDelayID);
             this.tabPageIDDictionaryAttack.Controls.Add(this.buttonStartIdAttack);
             this.tabPageIDDictionaryAttack.Controls.Add(this.labelPerformIdAttack);
             this.tabPageIDDictionaryAttack.Controls.Add(this.checkBoxPasswordsOnly);
-            this.tabPageIDDictionaryAttack.Controls.Add(this.buttonLoadDictionaryID);
+            this.tabPageIDDictionaryAttack.Controls.Add(this.buttonLoadFormFileID);
             this.tabPageIDDictionaryAttack.Controls.Add(this.labelLoadDictionaryFromFileID);
             this.tabPageIDDictionaryAttack.Controls.Add(this.labelButtonIdDictionary);
             this.tabPageIDDictionaryAttack.Controls.Add(this.labelPasswordIdDictionary);
@@ -806,21 +816,66 @@ namespace BruteForceAttack
             this.tabPageIDDictionaryAttack.Text = "Dictionary ID Attack";
             this.tabPageIDDictionaryAttack.UseVisualStyleBackColor = true;
             // 
+            // labelStopConditionsID
+            // 
+            this.labelStopConditionsID.AutoSize = true;
+            this.labelStopConditionsID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelStopConditionsID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelStopConditionsID.Location = new System.Drawing.Point(105, 88);
+            this.labelStopConditionsID.Name = "labelStopConditionsID";
+            this.labelStopConditionsID.Size = new System.Drawing.Size(112, 15);
+            this.labelStopConditionsID.TabIndex = 14;
+            this.labelStopConditionsID.Text = "Stop Conditions:";
+            // 
+            // comboBoxStopConditionsID
+            // 
+            this.comboBoxStopConditionsID.FormattingEnabled = true;
+            this.comboBoxStopConditionsID.Items.AddRange(new object[] {
+            "Document text changed",
+            "Reaching the requested url",
+            "Redirected to another site"});
+            this.comboBoxStopConditionsID.Location = new System.Drawing.Point(223, 88);
+            this.comboBoxStopConditionsID.Name = "comboBoxStopConditionsID";
+            this.comboBoxStopConditionsID.Size = new System.Drawing.Size(215, 21);
+            this.comboBoxStopConditionsID.TabIndex = 13;
+            this.comboBoxStopConditionsID.SelectedIndexChanged += new System.EventHandler(this.comboBoxStopConditionsID_SelectedIndexChanged);
+            // 
+            // textBoxDelayID
+            // 
+            this.textBoxDelayID.Location = new System.Drawing.Point(575, 132);
+            this.textBoxDelayID.Name = "textBoxDelayID";
+            this.textBoxDelayID.Size = new System.Drawing.Size(70, 20);
+            this.textBoxDelayID.TabIndex = 12;
+            this.textBoxDelayID.Text = "300";
+            // 
+            // labelDelayID
+            // 
+            this.labelDelayID.AutoSize = true;
+            this.labelDelayID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelDelayID.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelDelayID.Location = new System.Drawing.Point(489, 132);
+            this.labelDelayID.Name = "labelDelayID";
+            this.labelDelayID.Size = new System.Drawing.Size(80, 15);
+            this.labelDelayID.TabIndex = 11;
+            this.labelDelayID.Text = "Delay (ms):";
+            // 
             // buttonStartIdAttack
             // 
-            this.buttonStartIdAttack.Location = new System.Drawing.Point(223, 124);
+            this.buttonStartIdAttack.Enabled = false;
+            this.buttonStartIdAttack.Location = new System.Drawing.Point(223, 140);
             this.buttonStartIdAttack.Name = "buttonStartIdAttack";
             this.buttonStartIdAttack.Size = new System.Drawing.Size(98, 23);
             this.buttonStartIdAttack.TabIndex = 10;
             this.buttonStartIdAttack.Text = "START";
             this.buttonStartIdAttack.UseVisualStyleBackColor = true;
+            this.buttonStartIdAttack.Click += new System.EventHandler(this.buttonStartIdAttack_Click);
             // 
             // labelPerformIdAttack
             // 
             this.labelPerformIdAttack.AutoSize = true;
             this.labelPerformIdAttack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelPerformIdAttack.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelPerformIdAttack.Location = new System.Drawing.Point(113, 127);
+            this.labelPerformIdAttack.Location = new System.Drawing.Point(113, 143);
             this.labelPerformIdAttack.Name = "labelPerformIdAttack";
             this.labelPerformIdAttack.Size = new System.Drawing.Size(104, 15);
             this.labelPerformIdAttack.TabIndex = 9;
@@ -829,28 +884,29 @@ namespace BruteForceAttack
             // checkBoxPasswordsOnly
             // 
             this.checkBoxPasswordsOnly.AutoSize = true;
-            this.checkBoxPasswordsOnly.Location = new System.Drawing.Point(339, 102);
+            this.checkBoxPasswordsOnly.Location = new System.Drawing.Point(339, 118);
             this.checkBoxPasswordsOnly.Name = "checkBoxPasswordsOnly";
             this.checkBoxPasswordsOnly.Size = new System.Drawing.Size(99, 17);
             this.checkBoxPasswordsOnly.TabIndex = 8;
             this.checkBoxPasswordsOnly.Text = "Passwords only";
             this.checkBoxPasswordsOnly.UseVisualStyleBackColor = true;
             // 
-            // buttonLoadDictionaryID
+            // buttonLoadFormFileID
             // 
-            this.buttonLoadDictionaryID.Location = new System.Drawing.Point(223, 98);
-            this.buttonLoadDictionaryID.Name = "buttonLoadDictionaryID";
-            this.buttonLoadDictionaryID.Size = new System.Drawing.Size(98, 23);
-            this.buttonLoadDictionaryID.TabIndex = 7;
-            this.buttonLoadDictionaryID.Text = "Load...";
-            this.buttonLoadDictionaryID.UseVisualStyleBackColor = true;
+            this.buttonLoadFormFileID.Location = new System.Drawing.Point(223, 114);
+            this.buttonLoadFormFileID.Name = "buttonLoadFormFileID";
+            this.buttonLoadFormFileID.Size = new System.Drawing.Size(98, 23);
+            this.buttonLoadFormFileID.TabIndex = 7;
+            this.buttonLoadFormFileID.Text = "Load...";
+            this.buttonLoadFormFileID.UseVisualStyleBackColor = true;
+            this.buttonLoadFormFileID.Click += new System.EventHandler(this.buttonLoadDictionaryID_Click);
             // 
             // labelLoadDictionaryFromFileID
             // 
             this.labelLoadDictionaryFromFileID.AutoSize = true;
             this.labelLoadDictionaryFromFileID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelLoadDictionaryFromFileID.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelLoadDictionaryFromFileID.Location = new System.Drawing.Point(51, 98);
+            this.labelLoadDictionaryFromFileID.Location = new System.Drawing.Point(51, 114);
             this.labelLoadDictionaryFromFileID.Name = "labelLoadDictionaryFromFileID";
             this.labelLoadDictionaryFromFileID.Size = new System.Drawing.Size(166, 15);
             this.labelLoadDictionaryFromFileID.TabIndex = 6;
@@ -861,7 +917,7 @@ namespace BruteForceAttack
             this.labelButtonIdDictionary.AutoSize = true;
             this.labelButtonIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelButtonIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelButtonIdDictionary.Location = new System.Drawing.Point(147, 73);
+            this.labelButtonIdDictionary.Location = new System.Drawing.Point(147, 64);
             this.labelButtonIdDictionary.Name = "labelButtonIdDictionary";
             this.labelButtonIdDictionary.Size = new System.Drawing.Size(70, 15);
             this.labelButtonIdDictionary.TabIndex = 5;
@@ -872,7 +928,7 @@ namespace BruteForceAttack
             this.labelPasswordIdDictionary.AutoSize = true;
             this.labelPasswordIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelPasswordIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelPasswordIdDictionary.Location = new System.Drawing.Point(90, 46);
+            this.labelPasswordIdDictionary.Location = new System.Drawing.Point(90, 37);
             this.labelPasswordIdDictionary.Name = "labelPasswordIdDictionary";
             this.labelPasswordIdDictionary.Size = new System.Drawing.Size(127, 15);
             this.labelPasswordIdDictionary.TabIndex = 4;
@@ -880,21 +936,21 @@ namespace BruteForceAttack
             // 
             // textBoxButtonIdDictionary
             // 
-            this.textBoxButtonIdDictionary.Location = new System.Drawing.Point(223, 72);
+            this.textBoxButtonIdDictionary.Location = new System.Drawing.Point(223, 63);
             this.textBoxButtonIdDictionary.Name = "textBoxButtonIdDictionary";
             this.textBoxButtonIdDictionary.Size = new System.Drawing.Size(215, 20);
             this.textBoxButtonIdDictionary.TabIndex = 3;
             // 
             // textBoxPasswordIdDictionary
             // 
-            this.textBoxPasswordIdDictionary.Location = new System.Drawing.Point(223, 45);
+            this.textBoxPasswordIdDictionary.Location = new System.Drawing.Point(223, 36);
             this.textBoxPasswordIdDictionary.Name = "textBoxPasswordIdDictionary";
             this.textBoxPasswordIdDictionary.Size = new System.Drawing.Size(215, 20);
             this.textBoxPasswordIdDictionary.TabIndex = 2;
             // 
             // textBoxLoginIdDictionary
             // 
-            this.textBoxLoginIdDictionary.Location = new System.Drawing.Point(223, 18);
+            this.textBoxLoginIdDictionary.Location = new System.Drawing.Point(223, 9);
             this.textBoxLoginIdDictionary.Name = "textBoxLoginIdDictionary";
             this.textBoxLoginIdDictionary.Size = new System.Drawing.Size(215, 20);
             this.textBoxLoginIdDictionary.TabIndex = 1;
@@ -903,7 +959,7 @@ namespace BruteForceAttack
             // 
             this.labelLoginIdDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelLoginIdDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelLoginIdDictionary.Location = new System.Drawing.Point(115, 21);
+            this.labelLoginIdDictionary.Location = new System.Drawing.Point(115, 12);
             this.labelLoginIdDictionary.Name = "labelLoginIdDictionary";
             this.labelLoginIdDictionary.Size = new System.Drawing.Size(102, 20);
             this.labelLoginIdDictionary.TabIndex = 0;
@@ -939,6 +995,15 @@ namespace BruteForceAttack
             this.groupBox.TabIndex = 20;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Log";
+            // 
+            // textBoxRequestedUrlID
+            // 
+            this.textBoxRequestedUrlID.Location = new System.Drawing.Point(451, 89);
+            this.textBoxRequestedUrlID.Name = "textBoxRequestedUrlID";
+            this.textBoxRequestedUrlID.Size = new System.Drawing.Size(220, 20);
+            this.textBoxRequestedUrlID.TabIndex = 15;
+            this.textBoxRequestedUrlID.Text = "type requested url";
+            this.textBoxRequestedUrlID.Visible = false;
             // 
             // Form1
             // 
@@ -1056,8 +1121,13 @@ namespace BruteForceAttack
         private System.Windows.Forms.Button buttonStartIdAttack;
         private System.Windows.Forms.Label labelPerformIdAttack;
         private System.Windows.Forms.CheckBox checkBoxPasswordsOnly;
-        private System.Windows.Forms.Button buttonLoadDictionaryID;
+        private System.Windows.Forms.Button buttonLoadFormFileID;
         private System.Windows.Forms.Label labelLoadDictionaryFromFileID;
+        private System.Windows.Forms.Label labelDelayID;
+        private System.Windows.Forms.TextBox textBoxDelayID;
+        private System.Windows.Forms.Label labelStopConditionsID;
+        private System.Windows.Forms.ComboBox comboBoxStopConditionsID;
+        private System.Windows.Forms.TextBox textBoxRequestedUrlID;
     }
 }
 

