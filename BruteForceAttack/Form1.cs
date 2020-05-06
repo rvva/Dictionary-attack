@@ -20,7 +20,7 @@ namespace BruteForceAttack
     {
         private Credentials credentials = new Credentials();
 
-        delegate void updatePostLog();
+        delegate void updateTextBox();
 
         public Form1()
         {
@@ -28,11 +28,6 @@ namespace BruteForceAttack
 
             textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
             webBrowser.Navigate(textBoxUrl.Text);
-
-            ScintillaConfig.loadHtmlStyleConfig(scintillaDocumentTextBox);
-            scintillaDocumentTextBox.Text = webBrowser.DocumentText;
-
-            // Highlighter.highlightHTMLText(richTextBoxDocumentText);
 
             comboBoxEncode.SelectedIndex = 0;
             comboBoxEncodeTypeDictionary.SelectedIndex = 0;
@@ -44,6 +39,9 @@ namespace BruteForceAttack
 
             toolTip.SetToolTip(listBoxInputID, "Click on an item to copy it to the clipboard.");
             toolTip.SetToolTip(listBoxButtonID, "Click on an item to copy it to the clipboard.");
+
+            ScintillaConfig.loadHtmlStyleConfig(scintillaDocumentTextBox);
+            scintillaDocumentTextBox.Text = webBrowser.DocumentText;
         }
 
         private void updatePostURL()
@@ -75,6 +73,18 @@ namespace BruteForceAttack
             {
                 case 1:
                     return EncodeUtilities.base64Encode(plaintext);
+                case 2:
+                    return EncodeUtilities.md5(plaintext);
+                case 3:
+                    return EncodeUtilities.ripemd160(plaintext);
+                case 4:
+                    return EncodeUtilities.sha1(plaintext);
+                case 5:
+                    return EncodeUtilities.sha256(plaintext);
+                case 6:
+                    return EncodeUtilities.sha384(plaintext);
+                case 7:
+                    return EncodeUtilities.sha512(plaintext);
 
                 default: return plaintext;
             }
@@ -402,26 +412,17 @@ namespace BruteForceAttack
         private void startFiddler()
         {
             FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
-            ;
             FiddlerApplication.Startup(8888, true, true, true);
             InstallCertificate();
         }
-
+        
         public bool InstallCertificate()
         {
-            if (!CertMaker.rootCertExists())
-            {
-                if (!CertMaker.createRootCert())
+            if (!CertMaker.createRootCert())
                     return false;
 
-                if (!CertMaker.trustRootCert())
+            if (!CertMaker.trustRootCert())
                     return false;
-
-                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.key",
-                    FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.key", null));
-                FiddlerApplication.Prefs.SetStringPref("fiddler.certmaker.bc.cert",
-                    FiddlerApplication.Prefs.GetStringPref("fiddler.certmaker.bc.cert", null));
-            }
 
             return true;
         }
@@ -448,13 +449,14 @@ namespace BruteForceAttack
                          separator + "\r\n\r\n";
             }
 
-            richTextBoxPOST.Invoke(new updatePostLog(() => { richTextBoxPOST.AppendText(output); }));
+            richTextBoxPOST.Invoke(new updateTextBox(() => { richTextBoxPOST.AppendText(output); }));
         }
 
         private void stopFiddler()
         {
             FiddlerApplication.AfterSessionComplete -= FiddlerApplication_AfterSessionComplete;
             FiddlerApplication.Shutdown();
+            CertMaker.removeFiddlerGeneratedCerts();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -505,7 +507,7 @@ namespace BruteForceAttack
             HtmlElement login = null;
             HtmlElement submit = null;
 
-            // login with username (program can perform login in without username also [special cases]) 
+            // login with username (program can also perform login in without username [special cases]) 
             if (!String.IsNullOrEmpty(textBoxLoginID.Text))
             {
                 try
@@ -515,7 +517,7 @@ namespace BruteForceAttack
                 }
                 catch (Exception exception)
                 {
-
+                    MessageBox.Show("Wrong Login ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     Console.WriteLine(exception.ToString());
                 }
             }
@@ -653,7 +655,7 @@ namespace BruteForceAttack
                     break;
                 }
             }
-
+            //atack failed
             if (!isSuccess)
             {
                 string fail = "Dictionary attack failed";
@@ -677,5 +679,6 @@ namespace BruteForceAttack
             else
                 textBoxRequestedUrlID.Visible = false;
         }
+
     }
 }

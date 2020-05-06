@@ -93,6 +93,7 @@ namespace BruteForceAttack
             this.textBoxPasswordID = new System.Windows.Forms.TextBox();
             this.textBoxLoginID = new System.Windows.Forms.TextBox();
             this.tabPageIDDictionaryAttack = new System.Windows.Forms.TabPage();
+            this.textBoxRequestedUrlID = new System.Windows.Forms.TextBox();
             this.labelStopConditionsID = new System.Windows.Forms.Label();
             this.comboBoxStopConditionsID = new System.Windows.Forms.ComboBox();
             this.textBoxDelayID = new System.Windows.Forms.TextBox();
@@ -108,12 +109,12 @@ namespace BruteForceAttack
             this.textBoxPasswordIdDictionary = new System.Windows.Forms.TextBox();
             this.textBoxLoginIdDictionary = new System.Windows.Forms.TextBox();
             this.labelLoginIdDictionary = new System.Windows.Forms.Label();
+            this.tabPageHash = new System.Windows.Forms.TabPage();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.textBoxRequestedUrlID = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
             this.tabPagePOST.SuspendLayout();
@@ -304,6 +305,7 @@ namespace BruteForceAttack
             this.tabControlAttack.Controls.Add(this.tabPageDictionaryAttack);
             this.tabControlAttack.Controls.Add(this.tabPageIDAttack);
             this.tabControlAttack.Controls.Add(this.tabPageIDDictionaryAttack);
+            this.tabControlAttack.Controls.Add(this.tabPageHash);
             this.tabControlAttack.Location = new System.Drawing.Point(12, 38);
             this.tabControlAttack.Name = "tabControlAttack";
             this.tabControlAttack.SelectedIndex = 0;
@@ -330,7 +332,7 @@ namespace BruteForceAttack
             this.tabPageSingleAttack.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSingleAttack.Size = new System.Drawing.Size(684, 172);
             this.tabPageSingleAttack.TabIndex = 2;
-            this.tabPageSingleAttack.Text = "Single attack";
+            this.tabPageSingleAttack.Text = "Single POST";
             this.tabPageSingleAttack.UseVisualStyleBackColor = true;
             // 
             // labelPostString
@@ -455,7 +457,13 @@ namespace BruteForceAttack
             this.comboBoxEncode.FormattingEnabled = true;
             this.comboBoxEncode.Items.AddRange(new object[] {
             "Plaintext",
-            "Base64"});
+            "Base64",
+            "MD5",
+            "RMD-160",
+            "SHA1",
+            "SHA256",
+            "SHA384",
+            "SHA512"});
             this.comboBoxEncode.Location = new System.Drawing.Point(149, 71);
             this.comboBoxEncode.Name = "comboBoxEncode";
             this.comboBoxEncode.Size = new System.Drawing.Size(215, 21);
@@ -486,7 +494,7 @@ namespace BruteForceAttack
             this.tabPageDictionaryAttack.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageDictionaryAttack.Size = new System.Drawing.Size(684, 172);
             this.tabPageDictionaryAttack.TabIndex = 1;
-            this.tabPageDictionaryAttack.Text = "Dictionary Attack";
+            this.tabPageDictionaryAttack.Text = "POST Dictionary";
             this.tabPageDictionaryAttack.UseVisualStyleBackColor = true;
             // 
             // textBoxRequestedUrl
@@ -624,7 +632,13 @@ namespace BruteForceAttack
             this.comboBoxEncodeTypeDictionary.FormattingEnabled = true;
             this.comboBoxEncodeTypeDictionary.Items.AddRange(new object[] {
             "Plaintext",
-            "Base64"});
+            "Base64",
+            "MD5",
+            "RMD-160",
+            "SHA1",
+            "SHA256",
+            "SHA384",
+            "SHA512"});
             this.comboBoxEncodeTypeDictionary.Location = new System.Drawing.Point(195, 62);
             this.comboBoxEncodeTypeDictionary.Name = "comboBoxEncodeTypeDictionary";
             this.comboBoxEncodeTypeDictionary.Size = new System.Drawing.Size(215, 21);
@@ -816,6 +830,15 @@ namespace BruteForceAttack
             this.tabPageIDDictionaryAttack.Text = "Dictionary ID Attack";
             this.tabPageIDDictionaryAttack.UseVisualStyleBackColor = true;
             // 
+            // textBoxRequestedUrlID
+            // 
+            this.textBoxRequestedUrlID.Location = new System.Drawing.Point(451, 89);
+            this.textBoxRequestedUrlID.Name = "textBoxRequestedUrlID";
+            this.textBoxRequestedUrlID.Size = new System.Drawing.Size(220, 20);
+            this.textBoxRequestedUrlID.TabIndex = 15;
+            this.textBoxRequestedUrlID.Text = "type requested url";
+            this.textBoxRequestedUrlID.Visible = false;
+            // 
             // labelStopConditionsID
             // 
             this.labelStopConditionsID.AutoSize = true;
@@ -965,6 +988,15 @@ namespace BruteForceAttack
             this.labelLoginIdDictionary.TabIndex = 0;
             this.labelLoginIdDictionary.Text = "Login input ID:";
             // 
+            // tabPageHash
+            // 
+            this.tabPageHash.Location = new System.Drawing.Point(4, 22);
+            this.tabPageHash.Name = "tabPageHash";
+            this.tabPageHash.Size = new System.Drawing.Size(684, 172);
+            this.tabPageHash.TabIndex = 6;
+            this.tabPageHash.Text = "Encode/ Hash Utilities ";
+            this.tabPageHash.UseVisualStyleBackColor = true;
+            // 
             // toolTip
             // 
             this.toolTip.AutoPopDelay = 7000;
@@ -996,15 +1028,6 @@ namespace BruteForceAttack
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Log";
             // 
-            // textBoxRequestedUrlID
-            // 
-            this.textBoxRequestedUrlID.Location = new System.Drawing.Point(451, 89);
-            this.textBoxRequestedUrlID.Name = "textBoxRequestedUrlID";
-            this.textBoxRequestedUrlID.Size = new System.Drawing.Size(220, 20);
-            this.textBoxRequestedUrlID.TabIndex = 15;
-            this.textBoxRequestedUrlID.Text = "type requested url";
-            this.textBoxRequestedUrlID.Visible = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1020,7 +1043,7 @@ namespace BruteForceAttack
             this.Controls.Add(this.groupBox);
             this.ForeColor = System.Drawing.SystemColors.Desktop;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Dictionary Attack";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl.ResumeLayout(false);
@@ -1128,6 +1151,7 @@ namespace BruteForceAttack
         private System.Windows.Forms.Label labelStopConditionsID;
         private System.Windows.Forms.ComboBox comboBoxStopConditionsID;
         private System.Windows.Forms.TextBox textBoxRequestedUrlID;
+        private System.Windows.Forms.TabPage tabPageHash;
     }
 }
 
