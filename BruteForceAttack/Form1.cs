@@ -29,8 +29,8 @@ namespace BruteForceAttack
             textBoxPostUrl.Text = "http://tendawifi.com/login/Auth"; // for testing purposes 
             webBrowser.Navigate(textBoxUrl.Text);
 
-            comboBoxEncode.SelectedIndex = 0;
-            comboBoxEncodeTypeDictionary.SelectedIndex = 0;
+            comboBoxHash.SelectedIndex = 0;
+            comboBoxHashTypeDictionary.SelectedIndex = 0;
             comboBoxStopConditions.SelectedIndex = 0;
             comboBoxStopConditionsID.SelectedIndex = 0;
 
@@ -44,15 +44,24 @@ namespace BruteForceAttack
             scintillaDocumentTextBox.Text = webBrowser.DocumentText;
         }
 
+
         private void updatePostURL()
         {
-            string login = (checkBoxLogin.Checked)
-                ? encodeString(textBoxLogin.Text, comboBoxEncode.SelectedIndex)
+            string login = (comboBoxHash.SelectedIndex > 0) 
+                ? hashString(textBoxLogin.Text, comboBoxHash.SelectedIndex)
                 : textBoxLogin.Text;
 
-            string password = (checkBoxPassword.Checked)
-                ? encodeString(textBoxPassword.Text, comboBoxEncode.SelectedIndex)
+             login = (checkBoxLogin.Checked)
+                ? encodeString(login)
+                : login;
+
+            string password = (comboBoxHash.SelectedIndex > 0)
+                ? hashString(textBoxPassword.Text, comboBoxHash.SelectedIndex)
                 : textBoxPassword.Text;
+
+            password = (checkBoxPassword.Checked)
+                ? encodeString(password)
+                : password;
 
 
             if (!String.IsNullOrEmpty(textBoxLogin.Text) && !String.IsNullOrEmpty(textBoxPassword.Text))
@@ -67,27 +76,44 @@ namespace BruteForceAttack
                 textBoxPostString.Text = "";
         }
 
-        private string encodeString(string plaintext, int index)
+        private string hashString(string plaintext, int index)
         {
             switch (index)
             {
+                // UPERCASE HASHES
                 case 1:
-                    return EncodeUtilities.base64Encode(plaintext);
+                    return EncodeUtilities.md5(plaintext, "X2");
                 case 2:
-                    return EncodeUtilities.md5(plaintext);
+                    return EncodeUtilities.ripemd160(plaintext, "X2");
                 case 3:
-                    return EncodeUtilities.ripemd160(plaintext);
+                    return EncodeUtilities.sha1(plaintext, "X2");
                 case 4:
-                    return EncodeUtilities.sha1(plaintext);
+                    return EncodeUtilities.sha256(plaintext, "X2");
                 case 5:
-                    return EncodeUtilities.sha256(plaintext);
+                    return EncodeUtilities.sha384(plaintext, "X2");
                 case 6:
-                    return EncodeUtilities.sha384(plaintext);
+                    return EncodeUtilities.sha512(plaintext, "X2");
+                //LOWERCASE HASHES
                 case 7:
-                    return EncodeUtilities.sha512(plaintext);
+                    return EncodeUtilities.md5(plaintext, "x2");
+                case 8:
+                    return EncodeUtilities.ripemd160(plaintext, "x2");
+                case 9:
+                    return EncodeUtilities.sha1(plaintext, "x2");
+                case 10:
+                    return EncodeUtilities.sha256(plaintext, "x2");
+                case 11:
+                    return EncodeUtilities.sha384(plaintext, "x2");
+                case 12:
+                    return EncodeUtilities.sha512(plaintext, "x2");
 
                 default: return plaintext;
             }
+        }
+
+        private string encodeString(string text)
+        {
+            return EncodeUtilities.base64Encode(text);
         }
 
 
@@ -259,12 +285,13 @@ namespace BruteForceAttack
             string startUrl = webBrowser.Url.ToString();
             bool isSuccess = false;
 
-            LinkedList<Credential> encodedCredentials = encodeCredentials();
+            LinkedList<Credential> hashedCredentials = hashCredentials();
+            LinkedList<Credential> encodedCredentials = encodeCredentials(hashedCredentials);
 
-            //encoding credentials
+            //show new dictionary
             if (!encodedCredentials.Equals(credentials.ListOfCredentials))
             {
-                richTextBoxLog.AppendText("\n" + getTime() + " Dictionary after encoding [login:password]" +
+                richTextBoxLog.AppendText("\n" + getTime() + " Dictionary after processing [login:password]" +
                                           Environment.NewLine);
                 richTextBoxLog.AppendText(listToString(encodedCredentials) + Environment.NewLine);
             }
@@ -304,18 +331,18 @@ namespace BruteForceAttack
                     MessageBox.Show(successLog, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
                 }
-            }
 
-            // dictionary attack fail
-            if (!isSuccess)
-            {
-                string fail = "Dictionary attack failed";
-                richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + fail + " !-\r\n");
-                MessageBox.Show(fail + '.', "Fail!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                // dictionary attack fail
+                if (!isSuccess)
+                {
+                    string fail = "Dictionary attack failed";
+                    richTextBoxLog.AppendText("\r\n" + getTime() + " -! " + fail + " !-\r\n");
+                    MessageBox.Show(fail + '.', "Fail!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
-            //save log to file
-            showSaveLogMessage();
+                //save log to file
+                showSaveLogMessage();
+            }
         }
 
         private void showSaveLogMessage()
@@ -340,33 +367,46 @@ namespace BruteForceAttack
             }
         }
 
-
-        private LinkedList<Credential> encodeCredentials()
+        private LinkedList<Credential> hashCredentials()
         {
-            LinkedList<Credential> encodedList = new LinkedList<Credential>();
+            LinkedList<Credential> hashedCredentials = new LinkedList<Credential>();
+
+            if (comboBoxHashTypeDictionary.SelectedIndex == 0) //plaintext
+                return credentials.ListOfCredentials;
+
             foreach (var item in credentials.ListOfCredentials)
             {
+                hashedCredentials.AddLast(new Credential (hashString(item.Login, comboBoxHashTypeDictionary.SelectedIndex),
+                                                        hashString(item.Password, comboBoxHashTypeDictionary.SelectedIndex)));
+            }
+            return hashedCredentials;
+        }
+
+        private LinkedList<Credential> encodeCredentials(LinkedList<Credential> credentials)
+        {
+            LinkedList<Credential> encodeCredentials = new LinkedList<Credential>();
+            foreach (var item in credentials)
+            {
                 if (!checkBoxLoginEncodeDictionary.Checked && !checkBoxPasswordEncodeDictionary.Checked) // none
-                    return credentials.ListOfCredentials;
+                    return credentials;
 
                 else if (!checkBoxLoginEncodeDictionary.Checked && checkBoxPasswordEncodeDictionary.Checked
                 ) // only password
-                    encodedList.AddLast(new Credential(
+                    encodeCredentials.AddLast(new Credential(
                         item.Login,
-                        encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
+                        encodeString(item.Password)));
 
                 else if (checkBoxLoginEncodeDictionary.Checked && !checkBoxPasswordEncodeDictionary.Checked
                 ) // only login
-                    encodedList.AddLast(new Credential(
-                        encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
+                    encodeCredentials.AddLast(new Credential(
+                        encodeString(item.Login),
                         item.Password));
                 else // both
-                    encodedList.AddLast(new Credential(
-                        encodeString(item.Login, comboBoxEncodeTypeDictionary.SelectedIndex),
-                        encodeString(item.Password, comboBoxEncodeTypeDictionary.SelectedIndex)));
+                    encodeCredentials.AddLast(new Credential(
+                        encodeString(item.Login),
+                        encodeString(item.Password)));
             }
-
-            return encodedList;
+            return encodeCredentials;
         }
 
         private string listToString(LinkedList<Credential> list)
@@ -680,5 +720,9 @@ namespace BruteForceAttack
                 textBoxRequestedUrlID.Visible = false;
         }
 
+        private void buttonFindHash_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

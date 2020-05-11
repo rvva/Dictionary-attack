@@ -22,7 +22,8 @@ namespace BruteForceAttack
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        public static string md5(string plaintext)
+        // Format : X2 = uppercase, x2 = lowercase
+        public static string md5(string plaintext, string format)
         {
             using (MD5 md5 = MD5.Create())
             {
@@ -33,13 +34,13 @@ namespace BruteForceAttack
 
                 foreach (byte b in hash)
                 {
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
                 }
                 return stringBuilder.ToString();
             }
         }
 
-        public static string sha1(string plaintext)
+        public static string sha1(string plaintext, string format)
         {
             using (SHA1 sha1 = new SHA1Managed())
             {
@@ -48,14 +49,13 @@ namespace BruteForceAttack
 
                 foreach (byte b in hash)
                 {
-                    // X2 = uppercase, x2 = lowercase
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
                 }
                 return stringBuilder.ToString();
             }
         }
 
-        public static string ripemd160(string plaintext)
+        public static string ripemd160(string plaintext, string format)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -65,12 +65,12 @@ namespace BruteForceAttack
                 byte[] result = ripemd160.ComputeHash(enc.GetBytes(plaintext));
 
                 foreach (Byte b in result)
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
             }
             return stringBuilder.ToString();
         }
 
-        public static string sha256(string plaintext)
+        public static string sha256(string plaintext, string format)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -80,12 +80,12 @@ namespace BruteForceAttack
                 Byte[] result = sha256.ComputeHash(enc.GetBytes(plaintext));
 
                 foreach (Byte b in result)
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
             }
             return stringBuilder.ToString();
         }
 
-        public static string sha384(string plaintext)
+        public static string sha384(string plaintext, string format)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -95,12 +95,12 @@ namespace BruteForceAttack
                 Byte[] result = sha384.ComputeHash(enc.GetBytes(plaintext));
 
                 foreach (Byte b in result)
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
             }
             return stringBuilder.ToString();
         }
 
-        public static string sha512(string plaintext)
+        public static string sha512(string plaintext, string format)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -110,7 +110,7 @@ namespace BruteForceAttack
                 Byte[] result = sha512.ComputeHash(enc.GetBytes(plaintext));
 
                 foreach (Byte b in result)
-                    stringBuilder.Append(b.ToString("X2"));
+                    stringBuilder.Append(b.ToString(format));
             }
             return stringBuilder.ToString();
         }

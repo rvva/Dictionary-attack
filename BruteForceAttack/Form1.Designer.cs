@@ -56,12 +56,12 @@ namespace BruteForceAttack
             this.buttonPost = new System.Windows.Forms.Button();
             this.labelPostUrl = new System.Windows.Forms.Label();
             this.textBoxLogin = new System.Windows.Forms.TextBox();
-            this.labelEncode = new System.Windows.Forms.Label();
+            this.labelHash = new System.Windows.Forms.Label();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.labelPassword = new System.Windows.Forms.Label();
             this.textBoxPostUrl = new System.Windows.Forms.TextBox();
             this.labelLogin = new System.Windows.Forms.Label();
-            this.comboBoxEncode = new System.Windows.Forms.ComboBox();
+            this.comboBoxHash = new System.Windows.Forms.ComboBox();
             this.tabPageDictionaryAttack = new System.Windows.Forms.TabPage();
             this.textBoxRequestedUrl = new System.Windows.Forms.TextBox();
             this.textBoxPostDelay = new System.Windows.Forms.TextBox();
@@ -74,8 +74,8 @@ namespace BruteForceAttack
             this.labelStopConditions = new System.Windows.Forms.Label();
             this.checkBoxPasswordEncodeDictionary = new System.Windows.Forms.CheckBox();
             this.checkBoxLoginEncodeDictionary = new System.Windows.Forms.CheckBox();
-            this.labelEncodeTypeDictionary = new System.Windows.Forms.Label();
-            this.comboBoxEncodeTypeDictionary = new System.Windows.Forms.ComboBox();
+            this.labelHashTypeDictionary = new System.Windows.Forms.Label();
+            this.comboBoxHashTypeDictionary = new System.Windows.Forms.ComboBox();
             this.labelPostStringSytax = new System.Windows.Forms.Label();
             this.textBoxPostStringSyntax = new System.Windows.Forms.TextBox();
             this.labelPostUrlDictionary = new System.Windows.Forms.Label();
@@ -110,6 +110,22 @@ namespace BruteForceAttack
             this.textBoxLoginIdDictionary = new System.Windows.Forms.TextBox();
             this.labelLoginIdDictionary = new System.Windows.Forms.Label();
             this.tabPageHash = new System.Windows.Forms.TabPage();
+            this.groupBoxAutomatic = new System.Windows.Forms.GroupBox();
+            this.buttonFindHash = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.labelInputPlaintextAuto = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBoxInputPlaintextAuto = new System.Windows.Forms.TextBox();
+            this.groupBoxManual = new System.Windows.Forms.GroupBox();
+            this.checkBoxDecode = new System.Windows.Forms.CheckBox();
+            this.checkBoxEncode = new System.Windows.Forms.CheckBox();
+            this.labelBase64 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.labelHashType = new System.Windows.Forms.Label();
+            this.labelInputPlaintext = new System.Windows.Forms.Label();
+            this.textBoxInputPlaintext = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -126,6 +142,9 @@ namespace BruteForceAttack
             this.tabPageDictionaryAttack.SuspendLayout();
             this.tabPageIDAttack.SuspendLayout();
             this.tabPageIDDictionaryAttack.SuspendLayout();
+            this.tabPageHash.SuspendLayout();
+            this.groupBoxAutomatic.SuspendLayout();
+            this.groupBoxManual.SuspendLayout();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -321,12 +340,12 @@ namespace BruteForceAttack
             this.tabPageSingleAttack.Controls.Add(this.buttonPost);
             this.tabPageSingleAttack.Controls.Add(this.labelPostUrl);
             this.tabPageSingleAttack.Controls.Add(this.textBoxLogin);
-            this.tabPageSingleAttack.Controls.Add(this.labelEncode);
+            this.tabPageSingleAttack.Controls.Add(this.labelHash);
             this.tabPageSingleAttack.Controls.Add(this.textBoxPassword);
             this.tabPageSingleAttack.Controls.Add(this.labelPassword);
             this.tabPageSingleAttack.Controls.Add(this.textBoxPostUrl);
             this.tabPageSingleAttack.Controls.Add(this.labelLogin);
-            this.tabPageSingleAttack.Controls.Add(this.comboBoxEncode);
+            this.tabPageSingleAttack.Controls.Add(this.comboBoxHash);
             this.tabPageSingleAttack.Location = new System.Drawing.Point(4, 22);
             this.tabPageSingleAttack.Name = "tabPageSingleAttack";
             this.tabPageSingleAttack.Padding = new System.Windows.Forms.Padding(3);
@@ -360,6 +379,7 @@ namespace BruteForceAttack
             // textBoxPostString
             // 
             this.textBoxPostString.Location = new System.Drawing.Point(149, 124);
+            this.textBoxPostString.Multiline = true;
             this.textBoxPostString.Name = "textBoxPostString";
             this.textBoxPostString.Size = new System.Drawing.Size(215, 20);
             this.textBoxPostString.TabIndex = 6;
@@ -404,16 +424,16 @@ namespace BruteForceAttack
             this.textBoxLogin.TabIndex = 9;
             this.textBoxLogin.TextChanged += new System.EventHandler(this.textBoxLogin_TextChanged);
             // 
-            // labelEncode
+            // labelHash
             // 
-            this.labelEncode.AutoSize = true;
-            this.labelEncode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelEncode.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelEncode.Location = new System.Drawing.Point(64, 72);
-            this.labelEncode.Name = "labelEncode";
-            this.labelEncode.Size = new System.Drawing.Size(81, 15);
-            this.labelEncode.TabIndex = 15;
-            this.labelEncode.Text = "Ecode type:";
+            this.labelHash.AutoSize = true;
+            this.labelHash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelHash.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelHash.Location = new System.Drawing.Point(64, 72);
+            this.labelHash.Name = "labelHash";
+            this.labelHash.Size = new System.Drawing.Size(74, 15);
+            this.labelHash.TabIndex = 15;
+            this.labelHash.Text = "Hash type:";
             // 
             // textBoxPassword
             // 
@@ -452,23 +472,28 @@ namespace BruteForceAttack
             this.labelLogin.TabIndex = 13;
             this.labelLogin.Text = "Login:";
             // 
-            // comboBoxEncode
+            // comboBoxHash
             // 
-            this.comboBoxEncode.FormattingEnabled = true;
-            this.comboBoxEncode.Items.AddRange(new object[] {
+            this.comboBoxHash.FormattingEnabled = true;
+            this.comboBoxHash.Items.AddRange(new object[] {
             "Plaintext",
-            "Base64",
             "MD5",
             "RMD-160",
             "SHA1",
             "SHA256",
             "SHA384",
-            "SHA512"});
-            this.comboBoxEncode.Location = new System.Drawing.Point(149, 71);
-            this.comboBoxEncode.Name = "comboBoxEncode";
-            this.comboBoxEncode.Size = new System.Drawing.Size(215, 21);
-            this.comboBoxEncode.TabIndex = 12;
-            this.comboBoxEncode.SelectedIndexChanged += new System.EventHandler(this.comboBoxEncode_SelectedIndexChanged);
+            "SHA512",
+            "md5",
+            "rmd-160",
+            "sha1",
+            "sha256",
+            "sha384",
+            "sha512"});
+            this.comboBoxHash.Location = new System.Drawing.Point(149, 71);
+            this.comboBoxHash.Name = "comboBoxHash";
+            this.comboBoxHash.Size = new System.Drawing.Size(215, 21);
+            this.comboBoxHash.TabIndex = 12;
+            this.comboBoxHash.SelectedIndexChanged += new System.EventHandler(this.comboBoxEncode_SelectedIndexChanged);
             // 
             // tabPageDictionaryAttack
             // 
@@ -483,8 +508,8 @@ namespace BruteForceAttack
             this.tabPageDictionaryAttack.Controls.Add(this.labelStopConditions);
             this.tabPageDictionaryAttack.Controls.Add(this.checkBoxPasswordEncodeDictionary);
             this.tabPageDictionaryAttack.Controls.Add(this.checkBoxLoginEncodeDictionary);
-            this.tabPageDictionaryAttack.Controls.Add(this.labelEncodeTypeDictionary);
-            this.tabPageDictionaryAttack.Controls.Add(this.comboBoxEncodeTypeDictionary);
+            this.tabPageDictionaryAttack.Controls.Add(this.labelHashTypeDictionary);
+            this.tabPageDictionaryAttack.Controls.Add(this.comboBoxHashTypeDictionary);
             this.tabPageDictionaryAttack.Controls.Add(this.labelPostStringSytax);
             this.tabPageDictionaryAttack.Controls.Add(this.textBoxPostStringSyntax);
             this.tabPageDictionaryAttack.Controls.Add(this.labelPostUrlDictionary);
@@ -616,33 +641,38 @@ namespace BruteForceAttack
             this.checkBoxLoginEncodeDictionary.Text = "Login encode";
             this.checkBoxLoginEncodeDictionary.UseVisualStyleBackColor = true;
             // 
-            // labelEncodeTypeDictionary
+            // labelHashTypeDictionary
             // 
-            this.labelEncodeTypeDictionary.AutoSize = true;
-            this.labelEncodeTypeDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelEncodeTypeDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelEncodeTypeDictionary.Location = new System.Drawing.Point(110, 63);
-            this.labelEncodeTypeDictionary.Name = "labelEncodeTypeDictionary";
-            this.labelEncodeTypeDictionary.Size = new System.Drawing.Size(81, 15);
-            this.labelEncodeTypeDictionary.TabIndex = 22;
-            this.labelEncodeTypeDictionary.Text = "Ecode type:";
+            this.labelHashTypeDictionary.AutoSize = true;
+            this.labelHashTypeDictionary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelHashTypeDictionary.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelHashTypeDictionary.Location = new System.Drawing.Point(110, 63);
+            this.labelHashTypeDictionary.Name = "labelHashTypeDictionary";
+            this.labelHashTypeDictionary.Size = new System.Drawing.Size(74, 15);
+            this.labelHashTypeDictionary.TabIndex = 22;
+            this.labelHashTypeDictionary.Text = "Hash type:";
             // 
-            // comboBoxEncodeTypeDictionary
+            // comboBoxHashTypeDictionary
             // 
-            this.comboBoxEncodeTypeDictionary.FormattingEnabled = true;
-            this.comboBoxEncodeTypeDictionary.Items.AddRange(new object[] {
+            this.comboBoxHashTypeDictionary.FormattingEnabled = true;
+            this.comboBoxHashTypeDictionary.Items.AddRange(new object[] {
             "Plaintext",
-            "Base64",
             "MD5",
             "RMD-160",
             "SHA1",
             "SHA256",
             "SHA384",
-            "SHA512"});
-            this.comboBoxEncodeTypeDictionary.Location = new System.Drawing.Point(195, 62);
-            this.comboBoxEncodeTypeDictionary.Name = "comboBoxEncodeTypeDictionary";
-            this.comboBoxEncodeTypeDictionary.Size = new System.Drawing.Size(215, 21);
-            this.comboBoxEncodeTypeDictionary.TabIndex = 21;
+            "SHA512",
+            "md5",
+            "rmd-160",
+            "sha1",
+            "sha256",
+            "sha384",
+            "sha512"});
+            this.comboBoxHashTypeDictionary.Location = new System.Drawing.Point(195, 62);
+            this.comboBoxHashTypeDictionary.Name = "comboBoxHashTypeDictionary";
+            this.comboBoxHashTypeDictionary.Size = new System.Drawing.Size(215, 21);
+            this.comboBoxHashTypeDictionary.TabIndex = 21;
             // 
             // labelPostStringSytax
             // 
@@ -990,12 +1020,178 @@ namespace BruteForceAttack
             // 
             // tabPageHash
             // 
+            this.tabPageHash.Controls.Add(this.groupBoxAutomatic);
+            this.tabPageHash.Controls.Add(this.groupBoxManual);
             this.tabPageHash.Location = new System.Drawing.Point(4, 22);
             this.tabPageHash.Name = "tabPageHash";
             this.tabPageHash.Size = new System.Drawing.Size(684, 172);
             this.tabPageHash.TabIndex = 6;
             this.tabPageHash.Text = "Encode/ Hash Utilities ";
             this.tabPageHash.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxAutomatic
+            // 
+            this.groupBoxAutomatic.Controls.Add(this.buttonFindHash);
+            this.groupBoxAutomatic.Controls.Add(this.label3);
+            this.groupBoxAutomatic.Controls.Add(this.labelInputPlaintextAuto);
+            this.groupBoxAutomatic.Controls.Add(this.textBox3);
+            this.groupBoxAutomatic.Controls.Add(this.textBoxInputPlaintextAuto);
+            this.groupBoxAutomatic.Location = new System.Drawing.Point(339, 4);
+            this.groupBoxAutomatic.Name = "groupBoxAutomatic";
+            this.groupBoxAutomatic.Size = new System.Drawing.Size(332, 156);
+            this.groupBoxAutomatic.TabIndex = 1;
+            this.groupBoxAutomatic.TabStop = false;
+            this.groupBoxAutomatic.Text = "Automatic mode";
+            // 
+            // buttonFindHash
+            // 
+            this.buttonFindHash.Location = new System.Drawing.Point(136, 91);
+            this.buttonFindHash.Name = "buttonFindHash";
+            this.buttonFindHash.Size = new System.Drawing.Size(181, 43);
+            this.buttonFindHash.TabIndex = 4;
+            this.buttonFindHash.Text = "Detect hash/encode function";
+            this.buttonFindHash.UseVisualStyleBackColor = true;
+            this.buttonFindHash.Click += new System.EventHandler(this.buttonFindHash_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label3.Location = new System.Drawing.Point(18, 63);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 15);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Input Ciphertext:";
+            // 
+            // labelInputPlaintextAuto
+            // 
+            this.labelInputPlaintextAuto.AutoSize = true;
+            this.labelInputPlaintextAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelInputPlaintextAuto.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelInputPlaintextAuto.Location = new System.Drawing.Point(28, 38);
+            this.labelInputPlaintextAuto.Name = "labelInputPlaintextAuto";
+            this.labelInputPlaintextAuto.Size = new System.Drawing.Size(102, 15);
+            this.labelInputPlaintextAuto.TabIndex = 2;
+            this.labelInputPlaintextAuto.Text = "Input plaintext:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(136, 61);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(181, 20);
+            this.textBox3.TabIndex = 1;
+            // 
+            // textBoxInputPlaintextAuto
+            // 
+            this.textBoxInputPlaintextAuto.Location = new System.Drawing.Point(136, 36);
+            this.textBoxInputPlaintextAuto.Name = "textBoxInputPlaintextAuto";
+            this.textBoxInputPlaintextAuto.Size = new System.Drawing.Size(181, 20);
+            this.textBoxInputPlaintextAuto.TabIndex = 0;
+            // 
+            // groupBoxManual
+            // 
+            this.groupBoxManual.Controls.Add(this.checkBoxDecode);
+            this.groupBoxManual.Controls.Add(this.checkBoxEncode);
+            this.groupBoxManual.Controls.Add(this.labelBase64);
+            this.groupBoxManual.Controls.Add(this.label2);
+            this.groupBoxManual.Controls.Add(this.textBox1);
+            this.groupBoxManual.Controls.Add(this.comboBox1);
+            this.groupBoxManual.Controls.Add(this.labelHashType);
+            this.groupBoxManual.Controls.Add(this.labelInputPlaintext);
+            this.groupBoxManual.Controls.Add(this.textBoxInputPlaintext);
+            this.groupBoxManual.Location = new System.Drawing.Point(14, 3);
+            this.groupBoxManual.Name = "groupBoxManual";
+            this.groupBoxManual.Size = new System.Drawing.Size(319, 157);
+            this.groupBoxManual.TabIndex = 0;
+            this.groupBoxManual.TabStop = false;
+            this.groupBoxManual.Text = "Manual mode";
+            // 
+            // checkBoxDecode
+            // 
+            this.checkBoxDecode.AutoSize = true;
+            this.checkBoxDecode.Location = new System.Drawing.Point(188, 90);
+            this.checkBoxDecode.Name = "checkBoxDecode";
+            this.checkBoxDecode.Size = new System.Drawing.Size(62, 17);
+            this.checkBoxDecode.TabIndex = 8;
+            this.checkBoxDecode.Text = "decode";
+            this.checkBoxDecode.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEncode
+            // 
+            this.checkBoxEncode.AutoSize = true;
+            this.checkBoxEncode.Location = new System.Drawing.Point(111, 90);
+            this.checkBoxEncode.Name = "checkBoxEncode";
+            this.checkBoxEncode.Size = new System.Drawing.Size(62, 17);
+            this.checkBoxEncode.TabIndex = 7;
+            this.checkBoxEncode.Text = "encode";
+            this.checkBoxEncode.UseVisualStyleBackColor = true;
+            // 
+            // labelBase64
+            // 
+            this.labelBase64.AutoSize = true;
+            this.labelBase64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelBase64.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelBase64.Location = new System.Drawing.Point(46, 89);
+            this.labelBase64.Name = "labelBase64";
+            this.labelBase64.Size = new System.Drawing.Size(59, 15);
+            this.labelBase64.TabIndex = 6;
+            this.labelBase64.Text = "Base64:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label2.Location = new System.Drawing.Point(52, 118);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Output:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(111, 115);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(199, 20);
+            this.textBox1.TabIndex = 4;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(111, 60);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(199, 21);
+            this.comboBox1.TabIndex = 3;
+            // 
+            // labelHashType
+            // 
+            this.labelHashType.AutoSize = true;
+            this.labelHashType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelHashType.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelHashType.Location = new System.Drawing.Point(31, 64);
+            this.labelHashType.Name = "labelHashType";
+            this.labelHashType.Size = new System.Drawing.Size(74, 15);
+            this.labelHashType.TabIndex = 2;
+            this.labelHashType.Text = "Hash type:";
+            // 
+            // labelInputPlaintext
+            // 
+            this.labelInputPlaintext.AutoSize = true;
+            this.labelInputPlaintext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelInputPlaintext.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelInputPlaintext.Location = new System.Drawing.Point(3, 37);
+            this.labelInputPlaintext.Name = "labelInputPlaintext";
+            this.labelInputPlaintext.Size = new System.Drawing.Size(102, 15);
+            this.labelInputPlaintext.TabIndex = 1;
+            this.labelInputPlaintext.Text = "Input plaintext:";
+            // 
+            // textBoxInputPlaintext
+            // 
+            this.textBoxInputPlaintext.Location = new System.Drawing.Point(111, 34);
+            this.textBoxInputPlaintext.Name = "textBoxInputPlaintext";
+            this.textBoxInputPlaintext.Size = new System.Drawing.Size(199, 20);
+            this.textBoxInputPlaintext.TabIndex = 0;
             // 
             // toolTip
             // 
@@ -1061,6 +1257,11 @@ namespace BruteForceAttack
             this.tabPageIDAttack.PerformLayout();
             this.tabPageIDDictionaryAttack.ResumeLayout(false);
             this.tabPageIDDictionaryAttack.PerformLayout();
+            this.tabPageHash.ResumeLayout(false);
+            this.groupBoxAutomatic.ResumeLayout(false);
+            this.groupBoxAutomatic.PerformLayout();
+            this.groupBoxManual.ResumeLayout(false);
+            this.groupBoxManual.PerformLayout();
             this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1088,12 +1289,12 @@ namespace BruteForceAttack
         private System.Windows.Forms.Button buttonPost;
         private System.Windows.Forms.Label labelPostUrl;
         private System.Windows.Forms.TextBox textBoxLogin;
-        private System.Windows.Forms.Label labelEncode;
+        private System.Windows.Forms.Label labelHash;
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.TextBox textBoxPostUrl;
         private System.Windows.Forms.Label labelLogin;
-        private System.Windows.Forms.ComboBox comboBoxEncode;
+        private System.Windows.Forms.ComboBox comboBoxHash;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonLoadFromFile;
         private System.Windows.Forms.Label labelLoadFromFile;
@@ -1101,8 +1302,8 @@ namespace BruteForceAttack
         private System.Windows.Forms.Label labelStopConditions;
         private System.Windows.Forms.CheckBox checkBoxPasswordEncodeDictionary;
         private System.Windows.Forms.CheckBox checkBoxLoginEncodeDictionary;
-        private System.Windows.Forms.Label labelEncodeTypeDictionary;
-        private System.Windows.Forms.ComboBox comboBoxEncodeTypeDictionary;
+        private System.Windows.Forms.Label labelHashTypeDictionary;
+        private System.Windows.Forms.ComboBox comboBoxHashTypeDictionary;
         private System.Windows.Forms.Label labelPostStringSytax;
         private System.Windows.Forms.TextBox textBoxPostStringSyntax;
         private System.Windows.Forms.Label labelPostUrlDictionary;
@@ -1152,6 +1353,22 @@ namespace BruteForceAttack
         private System.Windows.Forms.ComboBox comboBoxStopConditionsID;
         private System.Windows.Forms.TextBox textBoxRequestedUrlID;
         private System.Windows.Forms.TabPage tabPageHash;
+        private System.Windows.Forms.GroupBox groupBoxAutomatic;
+        private System.Windows.Forms.GroupBox groupBoxManual;
+        private System.Windows.Forms.Label labelBase64;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label labelHashType;
+        private System.Windows.Forms.Label labelInputPlaintext;
+        private System.Windows.Forms.TextBox textBoxInputPlaintext;
+        private System.Windows.Forms.CheckBox checkBoxDecode;
+        private System.Windows.Forms.CheckBox checkBoxEncode;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBoxInputPlaintextAuto;
+        private System.Windows.Forms.Button buttonFindHash;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelInputPlaintextAuto;
     }
 }
 
