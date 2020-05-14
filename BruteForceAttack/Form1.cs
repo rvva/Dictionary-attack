@@ -33,6 +33,7 @@ namespace BruteForceAttack
             comboBoxHashTypeDictionary.SelectedIndex = 0;
             comboBoxStopConditions.SelectedIndex = 0;
             comboBoxStopConditionsID.SelectedIndex = 0;
+            comboBoxHashUtilities.SelectedIndex = 0;
 
             updateIDs("//input", listBoxInputID);
             updateIDs("//button", listBoxButtonID);
@@ -114,6 +115,20 @@ namespace BruteForceAttack
         private string encodeString(string text)
         {
             return EncodeUtilities.base64Encode(text);
+        }
+
+        private string decodeString(string text)
+        {
+            string output = "DECODE ERROR";
+            try
+            {
+                output = EncodeUtilities.base64Decode(text);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return output;
         }
 
 
@@ -722,7 +737,93 @@ namespace BruteForceAttack
 
         private void buttonFindHash_Click(object sender, EventArgs e)
         {
+            string hashResult = "";
+            string encodeResult = "";
+            string log = "No solution found for hashes supported by the program.";
+            bool success = false;
+            int i = 0;
+            int hashCount = comboBoxHash.Items.Count;
 
+            while (i < hashCount && !success)
+            {
+                hashResult = hashString(textBoxInputPlaintextAuto.Text, i);
+
+                // hash found
+                if (hashResult.Equals(textBoxOutput.Text))
+                {
+                    log = "Hash = " + comboBoxHash.Items[i];
+                    success = true;
+                    break;
+                }
+
+                // 0 for plaintext = found only encode
+                //hash + encode found
+
+                encodeResult = encodeString(hashResult);
+
+                if (encodeResult.Equals(textBoxOutput.Text))
+                {
+                    log = "Hash = " + comboBoxHash.Items[i] + Environment.NewLine +
+                        "Encode = Base64";
+                    success = true;
+                    break;
+                }
+
+                // 0 for plaintext = found only decode
+                //hash + decode found
+
+                encodeResult = decodeString(textBoxOutput.Text);
+
+                if (encodeResult.Equals(textBoxOutput.Text))
+                {
+                    log = "Hash = " + comboBoxHash.Items[i] + Environment.NewLine +
+                          "Decode = Base64";
+                    success = true;
+                    break;
+                }
+
+                i++;
+            }
+
+            MessageBox.Show(log, (success==true) ? "Success!" : "Fail!", MessageBoxButtons.OK,
+                (success == true) ? MessageBoxIcon.Information : MessageBoxIcon.Error);
         }
+
+        private void updateHashOutput()
+        {
+            // hash text
+            if (!String.IsNullOrEmpty(textBoxInputPlaintext.Text))
+                textBoxOutput.Text = hashString(textBoxInputPlaintext.Text, comboBoxHashUtilities.SelectedIndex);
+
+            // encode hash
+            if (checkBoxEncode.Checked)
+                textBoxOutput.Text = encodeString(textBoxOutput.Text);
+
+            // decode hash
+            if (checkBoxDecode.Checked)
+                textBoxOutput.Text = decodeString(textBoxOutput.Text);
+        }
+
+        private void comboBoxHashUtilities_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateHashOutput();
+        }
+
+        private void textBoxInputPlaintext_TextChanged(object sender, EventArgs e)
+        {
+            updateHashOutput();
+        }
+
+        private void checkBoxEncode_CheckedChanged(object sender, EventArgs e)
+        {
+            updateHashOutput();
+        }
+
+        private void checkBoxDecode_CheckedChanged(object sender, EventArgs e)
+        {
+            updateHashOutput();
+        }
+
+      
     }
 }
