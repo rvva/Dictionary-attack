@@ -164,7 +164,7 @@ namespace DictionaryAttack
             this.textBoxUrl.Name = "textBoxUrl";
             this.textBoxUrl.Size = new System.Drawing.Size(368, 20);
             this.textBoxUrl.TabIndex = 1;
-            this.textBoxUrl.Text = "http://tendawifi.com/login.html";
+            this.textBoxUrl.Text = "bing.com";
             this.textBoxUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxUrl_KeyDown);
             // 
             // buttonGo
